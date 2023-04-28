@@ -1,0 +1,41 @@
+<!-- <p>rm-wise-store-visit-report works!</p> -->
+
+<div class="page-header">
+    <h3 class="pageheader-title pageheader-color">RM Wise Store Visit Report</h3>    
+</div>
+<hr>
+
+<form>
+  <div class="row align-items-center g-3">
+    <div class="col-auto">
+      <div class="input-group">
+        <div class="input-group-text">Start Date</div>
+        <input type="date" class="form-control" id="inlineFormInputStartDate" name="StartDate" [(ngModel)]="StartDate">
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="input-group">
+        <div class="input-group-text">End Date</div>
+        <input type="date" class="form-control" id="inlineFormInputEndDate" name="EndDate" [(ngModel)]="EndDate">
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="input-group">
+        <div>Show Location</div>&nbsp;&nbsp;
+        <input class="form-check-input" type="checkbox" id="inlineFormInputShowLocation" name="ShowLocation" ng-true-value="1" ng-false-value="0" [(ngModel)]="ShowLocation">
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="input-group">
+        <!-- <div class="input-group-text"><i class="fa fa-search"></i></div> -->
+        <button class="btn btn-success" (click)="GenerateReport()">Generate Report</button>
+      </div>
+    </div>  
+  </div>
+</form>
+
+<div class="col-md-12 pt-3">
+  <div class="card">
+      <iframe id="ReportFrame" [src]="url | safe" style="border:none; width:100%; font-size:5pt !important;height: 940px; min-height: 940px;" ></iframe>
+  </div>
+</div>

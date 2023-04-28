@@ -1,0 +1,27 @@
+/* .active {
+    color: yellowgreen;
+    font-weight: bold;
+} */
+
+.active {
+    color: #4775d1;
+    font-weight: bold;
+    background-color: #f2f7fd;
+    border-radius: 22px 0px 0px 22px;
+    text-shadow: 1px 1px #c1c6cb;
+}
+
+.active .fa{
+    color: #4775d1;
+    font-weight: bold;
+    background-color: #f2f7fd;
+}
+
+.inactive {
+    color: none;
+    font-weight: none;
+}
+
+li.sidebar-item ul {  
+    display : none; /*To hide the items while loading the page */  
+} 

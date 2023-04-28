@@ -1,0 +1,38 @@
+/* <!-- ......changes end 24/03/2023 avik............ --> */
+.userlogout {
+    color: #4775d1 !important;
+    font-weight: bold;
+    background-color: #f2f7fd;
+    border: none;
+    border-radius: 5px;
+    text-shadow: 1px 1px #c1c6cb;
+}
+
+.navbar-expand .navbar-nav {
+    justify-content: space-between;
+}
+
+.form-select{
+    line-height: 1.8 !important;
+}
+
+.sthr{
+    padding-bottom: 2px;
+}
+
+.midLi {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.dropdown-item:active {
+    background-color: #e9ecef;
+}
+
+.stateMode{
+    min-height: 240px;
+}
+
+.btn-close{
+    background: none;
+}

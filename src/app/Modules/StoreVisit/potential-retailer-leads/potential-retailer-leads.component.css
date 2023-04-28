@@ -1,0 +1,47 @@
+.cards {
+    max-width: 100%;
+    margin: 0 auto;
+    display: grid;
+    gap: .5rem 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.targetDisplay{
+    min-width: 250px;
+    background-color: #e7f1ff;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    /* border: 1px solid #b5c6dd; */
+    border-radius: 4px;
+    box-shadow: 1px 2px #ccd3dd;
+}
+
+/* .stcard {
+    background-color: dodgerblue;
+    color: white;
+    padding-bottom: .5rem;
+} */
+
+.form-check-label, .form-check-input {
+    color: darkblue;
+}
+
+.loaderbox, .notfoundbox {
+    /* border: 1px solid #4775d1; */
+    background-color: #e7f1ff;
+    border-radius: 5px;
+    width: 100%;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 1px 2px #ccd3dd;
+}
+
+.notfoundText {
+    color: #4775d1;
+    font-weight: bold;
+    margin-top: 1rem;
+}

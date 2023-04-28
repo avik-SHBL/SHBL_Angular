@@ -1,0 +1,111 @@
+    <div class="page-header">
+        <h3 class="pageheader-title pageheader-color">RO Visit Route List</h3>
+    </div>
+    <hr>
+    <form>
+        <div class="row align-items-center g-3">
+            <div class="col-auto">
+                <div class="input-group">
+                    <div class="input-group-text">Start Date</div>
+                    <input type="date" class="form-control" id="inlineFormInputStartDate" name="StartDate" [(ngModel)]="StartDate" (change)="PopulateGrid()">
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="input-group">
+                    <div class="input-group-text">End Date</div>
+                    <input type="date" class="form-control" id="inlineFormInputEndDate" name="EndDate" [(ngModel)]="EndDate" (change)="PopulateGrid()">
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="input-group">
+                    <div class="input-group-text">Select RM</div>
+                    <select class="form-control form-select" id="exampleInputRM" name="RM" [(ngModel)]="UserID" (change)="PopulateGrid()">
+                   <option value="0">---Select---</option>
+                   <option *ngFor="let rev of RevenueOfficerList" value="{{rev.MemberID}}">
+                      {{rev.FirstName}}
+                  </option>
+              </select>
+                </div>
+            </div>
+             <div class="col-auto">
+                <div class="input-group">
+                    <div class="input-group-text"><i class="fa fa-search"></i></div>
+                    <input type="text" class="form-control" id="inlineFormInputSearch" name="Keyword" [(ngModel)]="Keyword" (keyup)="PopulateGrid()">
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Visit Date & Route</th>
+                <th scope="col">RM Name</th>
+                <th scope="col">KM</th>
+                <th scope="col">Visit Time</th>
+                <th scope="col">Pic</th>
+                <th scope="col">Store Name</th>
+                <th scope="col">Location</th>
+                <th scope="col">Short Remark</th>
+                <th scope="col">District
+                  <span style="float:right; font-size: 13.5pt; background-color: cyan; border-radius: 70px; width: 9%; text-align: center;"><input type="text" name="IsExpanded" [(ngModel)]="IsExpanded" hidden><span class="text-primary cursorhand" (click)="Expand_CollapseCell()">{{IsExpanded}}</span></span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let store of RMVisitRouteList; let i = index" [hidden]="IsExpanded == '+' && ( (RMVisitRouteList[i-1]!=null  && RMVisitRouteList[i-1]!=undefined)
+          && (RMVisitRouteList[i-1].VisitDate == store.VisitDate && RMVisitRouteList[i-1].RMName == store.RMName))">
+                <td scope="col">
+                    <label (click)="ShowMapPath(store.DateForMap,store.MemberID)" title="Click to view travel route & KM"><span [hidden]="(RMVisitRouteList[i-1]!=null  && RMVisitRouteList[i-1]!=undefined) && (RMVisitRouteList[i-1].VisitDate == store.VisitDate && RMVisitRouteList[i-1].RMName == store.RMName)">{{store.VisitDate | parseJsonDate}}&nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i></span></label>
+                    <!-- <label (click)="ShowMapPath(store.DateForMap)" title="Click to view travel route & KM"><i class="fa fa-map-marker" aria-hidden="true"></i></label> -->
+                </td>
+                <td scope="col"><label [hidden]="(RMVisitRouteList[i-1]!=null  && RMVisitRouteList[i-1]!=undefined) && (RMVisitRouteList[i-1].VisitDate == store.VisitDate && RMVisitRouteList[i-1].RMName == store.RMName)">{{store.RMName}}</label></td>
+
+                <!--Start 25-11-2022 -->
+
+                <td scope="col">
+                <label [hidden]="(RMVisitRouteList[i-1]!=null  && RMVisitRouteList[i-1]!=undefined) && (RMVisitRouteList[i-1].VisitDate == store.VisitDate && RMVisitRouteList[i-1].RMName == store.RMName)">
+                  <input type="text" name="KM" placeholder="Enter KM" style="border:none; color:green;" [(ngModel)]="store.KM" (change)="onChange_VisitKm(store.KM, store.MemberID, store.VisitDate)" [disabled]="store.IsRMAdmin != 1" >
+                  <!-- [disabled]="store.IsRMAdmin != 1" -->
+                </label>
+              </td>
+
+                <!--End 25-11-2022 -->
+                <td scope="col">{{store.VisitTime}}</td>
+                <td scope="col">
+                    <div class="action-buttons text-center">
+                      <a class="blue" (click)="GetPic(store.StoreVisitPhoto, store.StoreName)" *ngIf="store.StoreVisitPhoto != '' && store.StoreVisitPhoto != null  && store.StoreVisitPhoto != undefined">
+                          <i class="fa fa-picture-o icon-size"></i>
+                      </a>
+                  </div>
+              </td>
+                <td scope="col">{{store.StoreName}}&nbsp;<label (click)="ShowMap(store.Lattittude,store.Longitude)" *ngIf="store.Lattittude!=null "><i class="fa fa-map-marker" aria-hidden="true"></i></label></td>
+                <td scope="col">{{store.Location}}</td>
+                <td scope="col">{{store.ShortRemark}}</td>
+                <td scope="col">{{store.District}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls> -->
+        </div>
+        <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':myPopup}" >
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-md-10 text-center"><h4>StoreName : {{StoreName}}</h4></div>
+                <div class="col-md-2"><button type="button" class="btn-close"
+                    (click)="closePopup()"></button></div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <img [src]="ShowImgURL" class="img-responsive img-thumbnail" />
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,92 @@
+<div class="page-header">
+    <h3 class="pageheader-title pageheader-color">Retailer Leads To Visit</h3>
+</div>
+<hr>
+<form>
+    <div class="row align-items-center g-3">
+    	<div class="col-auto">
+    		<div class="input-group">
+                <div class="input-group-text">Status</div>
+    			<select class="form-control" name="IsVisited" [(ngModel)]="IsVisited" (change)="ChangeStatus($event)">
+                    <option value="0">Not Visited</option>
+                    <option value="1">Visited</option>
+                </select>
+    		</div>
+    	</div>
+        <div class="col-auto">
+            <div class="input-group">
+    			<div class="input-group-text"><i class="fa fa-search"></i></div>
+    			<input type="text" class="form-control" id="inlineFormInputSearch" name="Keyword" [(ngModel)]="Keyword" (keyup)="PopulateGrid()">
+    		</div>
+        </div>
+
+        <div class="col-auto">
+          <div class="input-group">
+            <div class="input-group-text">Interested Lead after call&nbsp;&nbsp;
+            <input class="form-check-input m-0" type="checkbox" id="inlineFormInputInterestedLead" name="InterestedLead"
+              ng-true-value="1" ng-false-value="0" [(ngModel)]="InterestedLead"
+              (change)="ChangeCheckStatus(InterestedLead)">
+            </div>
+          </div>
+        </div>
+
+    </div>
+</form>
+<!----------Data Grid---------->
+<div class="table-responsive">
+  <table class="table table-striped">
+      <thead>
+        <tr>
+          <!-- <th scope="col">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="check1" name="option1" value="something" [(ngModel)]="masterSelected" (change)="checkUncheckAll()">
+
+            </div>
+          </th> -->
+          <th scope="col">PinCode</th>
+
+          <!-- <th scope="col">Source</th> -->
+          <th scope="col">Shop Name</th>
+          <th scope="col">Address</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Location</th>
+
+          <!-- <th scope="col">Reachable?</th> -->
+          <th scope="col">State</th>
+          <th scope="col" *ngIf="IsVisited==1">Visit Remark</th>
+          
+          <th scope="col">Upload Date</th>
+        </tr>
+      </thead>
+      <tbody>
+       <tr *ngFor="let lead of RetailerLeadsForVisitList | paginate: { itemsPerPage: 50, currentPage: page };let i = index;">
+          <!-- <td scope="col">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="check1" name="option1" value="something" [(ngModel)]="lead.isSelected" (change)="isAllSelected()">
+
+            </div>
+          </td> -->
+          <td scope="col">
+            <label [hidden]="(RetailerLeadsForVisitList[i-1]!=null  && RetailerLeadsForVisitList[i-1]!=undefined) && (RetailerLeadsForVisitList[i-1].Pin_Code == lead.Pin_Code)">{{lead.Pin_Code}}</label>
+            </td>
+
+          <!-- <td scope="col">{{lead.Source}}</td> -->
+          <td scope="col"><a href="Home/StoreVisit/0/{{lead.LeadID}}">{{lead.ShopName}}</a></td>
+          <td scope="col">{{lead.ShopAddress}}</td>
+          <!-- href="Home/StoreVisit/{{store.StoreVisitID}}" -->
+          <td scope="col">
+            {{lead.ContactNumber1}}<span *ngIf="lead.ContactNumber2 != undefined">, {{lead.ContactNumber2}}</span>       
+          </td>
+          <td scope="col">{{lead.Location}}</td>
+
+          <!-- <td scope="col">{{lead.ReachableBySalesTeam}}</td> -->
+          <td scope="col">{{lead.State}}</td>
+          <td scope="col" *ngIf="IsVisited==1">{{lead.VisitShortRemark}}</td>
+          
+          
+          <td scope="col">{{lead.UploadDate}}</td>
+        </tr>
+      </tbody>
+    </table>
+     <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+</div>

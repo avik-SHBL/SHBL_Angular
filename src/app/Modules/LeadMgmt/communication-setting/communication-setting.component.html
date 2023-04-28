@@ -1,0 +1,284 @@
+<div class="page-header">
+	<div class="row">
+		<h3 class="pageheader-title pageheader-color col-sm-8">Communication Settings</h3>
+		<div class="col-sm-4" style="text-align: right;">
+			<button class="btn text-gray" data-bs-toggle="modal" data-bs-target="#TestSMSModal"><i class="fa fa-paper-plane"></i> Test SMS</button>
+			<button class="btn text-gray mx-1" data-bs-toggle="modal" data-bs-target="#TestEmailModal"><i class="fa fa-envelope"></i> Test Email</button>
+		</div>
+	</div>  
+</div>
+<hr>
+<form [formGroup]="CommunicationSettingForm" (ngSubmit)="Save()">
+	<div class="row mb-3">
+		<label for="exampleInputMessage" class="col-sm-2 col-form-label">Message<span class="text-red">*</span></label>
+		<div class="col-sm-10">
+			<textarea class="form-control input-control-color" id="exampleInputMessage" [ngClass]="{ 'is-invalid': submitted && f.MessageText.errors }" name="MessageText" formControlName="MessageText" rows="6"></textarea> 
+			<!-- <div class="form-text">We'll never share your email with anyone else.</div>  -->
+		</div>      
+	</div>
+	
+	<div class="row mb-3">
+		<label for="exampleInputState" class="col-sm-2 col-form-label">State</label>
+		<div class="col-sm-10">
+			<select class="form-control form-select input-control-color" id="exampleInputState" name="State" formControlName="StateID" (change)="StateOnChange()">
+				<option value="0">Select</option>
+				<option *ngFor="let st of StateList" value="{{st.StateID}}">{{st.StateName}}</option>
+			</select>
+		</div>      
+	</div>
+	<div class="row mb-3">
+		<label for="exampleInputDistrict" class="col-sm-2 col-form-label">District</label>
+		<div class="col-sm-10">
+			<select class="form-control form-select input-control-color" id="exampleInputDistrict" name="District" formControlName="DistrictID">
+				<option value="0">Select</option>
+				<option *ngFor="let dt of DistrictList" value="{{dt.DistrictID}}">{{dt.District}}</option>
+			</select>
+		</div>      
+	</div>
+	<div class="row mb-3">
+		<label for="exampleInputEmail" class="col-sm-2 col-form-label">Email</label>
+		<div class="col-sm-10">
+			<!-- Default switch -->
+			<div class="form-check form-switch input-control-color form-switch-md">
+				<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="IsEmail" formControlName="IsEmail" (change)="EmailOnChange($event)">
+				<label class="form-check-label" for="flexSwitchCheckDefault"></label>
+			</div>
+		</div>      
+	</div>
+	<div class="row mb-3">
+		<label for="exampleInputSMS" class="col-sm-2 col-form-label">SMS</label>
+		<div class="col-sm-10">
+			<div class="form-check form-switch input-control-color form-switch-md">
+				<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="IsSMS" formControlName="IsSMS">
+				<label class="form-check-label" for="flexSwitchCheckDefault"></label>
+			</div>
+		</div>      
+	</div>
+	<div class="row mb-3">
+		<label for="exampleInputWhatsApp" class="col-sm-2 col-form-label">WhatsApp</label>
+		<div class="col-sm-10">
+			<div class="form-check form-switch input-control-color form-switch-md">
+				<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="IsWhatsApp" formControlName="IsWhatsApp">
+				<label class="form-check-label" for="flexSwitchCheckDefault"></label>
+			</div>
+		</div>      
+	</div>
+	<div class="row mb-3" *ngIf="CommunicationSettingForm.value.IsEmail">
+		<label for="exampleInputBanner" class="col-sm-2 col-form-label">Email Banner</label>
+		<div class="col-sm-10">
+			<div class="input-group">
+				<input type="file" id="File" class="form-control input-control-color" id="exampleInputBanner" name="Banner" (change)="UploadBanner($event)">
+				<button class="btn btn-outline-primary" type="button" (click)="ShowExisitingBanner()">Choose Existing</button>				
+			</div>
+		</div>      
+	</div>
+	<div class="row mb-3" *ngIf="CommunicationSettingForm.value.IsEmail && (CommunicationSettingForm.value.BannerFilePath != '' || CommunicationSettingForm.value.BannerFilePath != undefined)">
+		<!-- <label for="exampleInputBanner" class="col-sm-2 col-form-label"></label> -->
+		<div class="col-sm-12">
+			<img [src]="BannerUrl" class="rounded img-fluid img-thumbnail">
+		</div>      
+	</div>
+	<div class="p-3 mb-3 rounded" style="border:1px solid #0e7bb4;">
+		<div class="row mb-3">
+			<label for="exampleInputCallingState" class="col-sm-2 col-form-label">Calling State</label>
+			<div class="col-sm-10">
+				<select class="form-control form-select input-control-color" id="exampleInputCallingState" name="CallingState" formControlName="CallingState" (change)="CallingState_OnChange($event)">
+					<option value="2">All</option>
+					<option value="1">Calling Started</option>
+					<option value="0">Calling Not Started</option>
+				</select>
+			</div>      
+		</div>
+		<div class="row mb-3" *ngIf="CommunicationSettingForm.value.CallingState == 1">
+			<label for="exampleInputCallingStatus" class="col-sm-2 col-form-label">Calling Status</label>
+			<div class="col-sm-10">
+				<select class="form-control form-select input-control-color" id="exampleInputCallingStatus" name="CallingStatus" formControlName="CallingStatus">
+					<option value="">Select</option>
+					<option value="1">Interested</option>
+					<option value="2">Follow Up</option>
+					<option value="3">Not Contactable</option>
+					<option value="4">Not Interested</option>
+					<option value="5">Rejected</option>
+					<option value="6">Others States</option>
+					<option value="7">Overlapping Locations</option>
+					<option value="10">Overlapping Potential Lead</option>
+					<option value="8">Pending</option>
+					<option value="9">WIP</option>
+				</select>
+			</div>      
+		</div>
+	</div>
+	<div class="p-3 mb-3 rounded" style="border:1px solid #0e7bb4;">
+		<div class="row mb-3">
+			<label for="exampleInputReachable" class="col-sm-2 col-form-label">Reachable Status</label>
+			<div class="col-sm-10">
+				<select class="form-control form-select input-control-color" id="exampleInputReachable" name="IsReachable" formControlName="IsReachable" (change)="IsReachable_OnChange($event)">
+					<option value="All">All</option>
+					<option value="Yes">Reachable</option>
+					<option value="No">Not Reachable</option>
+				</select>
+			</div>      
+		</div>
+
+		<div class="row mb-3" *ngIf="CommunicationSettingForm.value.IsReachable == 'Yes' ">
+			<label for="exampleInputVisitedStatus" class="col-sm-2 col-form-label">Visited Status</label>
+			<div class="col-sm-10">
+				<select class="form-control form-select input-control-color" id="exampleInputVisitedStatus" name="IsVisited" formControlName="IsVisited" (change)="IsVisited_OnChange($event)">
+					<option value="2">All</option>
+					<option value="1">Visited</option>
+					<option value="0">Not Visited</option>
+				</select>
+			</div>      
+		</div>
+		<div class="row mb-3" *ngIf="CommunicationSettingForm.value.IsReachable == 'Yes' && CommunicationSettingForm.value.IsVisited == '1' ">
+			<label for="exampleInputVisitShortRemark" class="col-sm-2 col-form-label">Visit Short Remark</label>
+			<div class="col-sm-10">
+				<select class="form-control form-select input-control-color" id="exampleInputVisitShortRemark" name="VisitShortRemark" formControlName="VisitShortRemark">
+					<option value="">Select</option>					
+					<option value="COD">COD</option>
+					<option value="Prepaid">Prepaid</option>
+					<option value="More Discount">More Discount</option>
+					<option value="Need Credit">Need Credit</option>
+					<option value="More Discount & Credit Both">More Discount & Credit Both</option>
+					<option value="Not Interested">Not Interested</option>
+					<option value="ON BOARD">ON BOARD</option>
+					<option value="Same Day Delivery">Same Day Delivery</option>            
+					<option value="Already ON BOARD">Already ON BOARD(Exisiting)</option>
+					<option value="Owner Not Present">Owner Not Present</option>
+				</select>
+			</div>      
+		</div>
+	</div>
+	<div class="row mb-3">
+		<label for="exampleInputFirstTime" class="col-sm-2 col-form-label">First Time Messaging?</label>
+		<div class="col-sm-10">
+			<select class="form-control form-select input-control-color" id="exampleInputFirstTime" name="IsFirstTime" formControlName="IsFirstTime">
+				<option value="2">All</option>
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</select>
+		</div>      
+	</div>
+	<div class="p-3 mb-3 rounded" style="border:1px solid #0e7bb4;">
+		<div class="row mb-3">
+			<label for="exampleInputBasedOnUpload" class="col-sm-2 col-form-label">Based On Lead Upload?</label>
+			<div class="col-sm-10">
+				<div class="form-check form-switch input-control-color form-switch-md">
+					<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="IsBasedOnUpload" formControlName="IsBasedOnUpload" (change)="IsBasedOnUpload_OnChange($event)">
+					<label class="form-check-label" for="flexSwitchCheckDefault"></label>
+				</div>
+			</div>      
+		</div>
+		<div *ngIf="CommunicationSettingForm.value.IsBasedOnUpload">
+			<div class="row mb-3">
+				<label for="exampleInputUploadStartDate" class="col-sm-2 col-form-label">Start Date<span class="text-red">*</span></label>
+				<div class="col-sm-10">
+					<input type="date" class="form-control input-control-color" [ngClass]="ValidateFieldStatus == 0 && CommunicationSettingForm.value.UploadStartDate == '' ? 'input-control-border' : 'none' " id="exampleInputUploadStartDate" name="UploadStartDate" formControlName="UploadStartDate" />
+				</div>      
+			</div>
+			<div class="row mb-3">
+				<label for="exampleInputUploadEndDate" class="col-sm-2 col-form-label">End Date<span class="text-red">*</span></label>
+				<div class="col-sm-10">
+					<input type="date" class="form-control input-control-color" [ngClass]="ValidateFieldStatus == 0 && CommunicationSettingForm.value.UploadEndDate == '' ? 'input-control-border' : 'none' " id="exampleInputUploadEndDate" name="UploadEndDate" formControlName="UploadEndDate" />
+				</div>      
+			</div>
+		</div>
+	</div>
+	<div class="row mb-3">
+		<label for="exampleInputPublishDate" class="col-sm-2 col-form-label">Publish Date<span class="text-red">*</span></label>
+		<div class="col-sm-10">
+			<input type="date" class="form-control input-control-color" [ngClass]="{ 'is-invalid': submitted && f.PublishDate.errors }" id="exampleInputPublishDate" name="PublishDate" formControlName="PublishDate" />
+		</div> 
+		<!-- <button class="col-sm-2 btn btn-link" style="color: #0e7bb4;">View Lead List</button> -->
+	</div>
+	<div class="row mb-3">
+		<div class="col-sm-12" style="text-align: center;">
+			<button class="btn btn-primary">Submit</button>
+		</div>
+	</div>
+</form>
+
+<!--- Modal For Banner Images --->
+<div class="modal" tabindex="-1" id="ModalBannerImages" [ngStyle]="{'display':DispBannerModal}">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><strong>Choose From Existing Banner</strong></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="HideExisitngBanner()"></button>
+      </div>
+      <div class="modal-body">
+        <!-- <p>Modal body text goes here.</p> -->
+        <div class="row">
+        	<div class="col-sm-6" *ngFor="let img of BannersList">
+        		<div class="card" >
+        			<img [src]="Url+img.BannerFilePath" class="card-img-top img-thumbnail cursorhand" alt="..." (click)="GetSelectedBanner(img.BannerFilePath)">
+        		</div>
+        	</div>
+        </div>
+
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<!--- Modal For Test SMS --->
+<div class="modal" tabindex="-1" id="TestSMSModal">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><strong>Send Test SMS</strong></h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<!-- <p>Modal body text goes here.</p> -->
+				<div class="row">
+					<div class="row mb-3">
+						<label for="exampleInputState" class="col-sm-2 col-form-label">Send To</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control input-control-color" id="To" name="To" placeholder="Eg: 9748521347" [ngClass]="SMSsubmitted && MobileNo == '' ? 'input-control-border' : 'none'" [(ngModel)]="MobileNo">
+							<div class="form-text" *ngIf="MobileNo.length > 10">Invalid Mobile Number</div> 
+						</div>     
+					</div>
+					<div class="row mb-3">
+						<div class="col-sm-12" style="text-align: center;">
+							<button class="btn btn-primary" (click)="SendSMS()">Send</button>
+						</div>     
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--- Modal For Test Email --->
+<div class="modal" tabindex="-1" id="TestEmailModal">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><strong>Send Test Email</strong></h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<!-- <p>Modal body text goes here.</p> -->
+				<div class="row">
+					<div class="row mb-3">
+						<label for="exampleInputState" class="col-sm-2 col-form-label">Send To</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control input-control-color" id="EmailAddress" name="EmailAddress" placeholder="Eg: abc@example.com" [ngClass]="Emailsubmitted && EmailAddress == '' ? 'input-control-border' : 'none'" [(ngModel)]="EmailAddress" (keyup)="ValidateEmail()">
+							<div class="form-text" *ngIf="ShowEmailValidation">Invalid Email Address</div> 
+						</div>     
+					</div>
+					<div class="row mb-3">
+						<div class="col-sm-12" style="text-align: center;">
+							<button class="btn btn-primary" (click)="SendEmail()">Send</button>
+						</div>     
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

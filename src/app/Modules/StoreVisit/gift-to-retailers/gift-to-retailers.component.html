@@ -1,0 +1,125 @@
+<!-- <p>gift-to-retailers works!</p> -->
+<div class="page-header">
+    <h3 class="pageheader-title pageheader-color">Gift To Retailers</h3> 
+</div>
+<hr>
+<form>
+    <div class="row align-items-center g-3">
+    	<div class="col-auto">
+    		<div class="input-group">
+                <div class="input-group-text">Gift Status</div>
+    			<select class="form-control" name="IsGiven" [(ngModel)]="IsGiven" (change)="ChangeStatus($event)">
+                    <option value="0">Gift pending</option>
+                    <option value="1">Gift given</option>
+                </select>
+    		</div>
+    	</div>
+        <div class="col-auto">
+            <div class="input-group">
+    			<div class="input-group-text"><i class="fa fa-search"></i></div>
+    			<input type="text" class="form-control" id="inlineFormInputSearch" name="Keyword" [(ngModel)]="Keyword" (keyup)="PopulateGrid()">
+    		</div>
+        </div> 
+    </div>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">{{Heading}}</th>
+            <th scope="col" *ngIf="IsGiven == 1">Gift Given On</th>
+            <th scope="col">District</th>
+            <th scope="col">Location</th>
+            <th scope="col">Store Name</th>                            
+            <!-- <th scope="col" *ngIf="IsGiven == 1">Change Pic</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let GTR of GiftToRetailersList | paginate: { itemsPerPage: 20, currentPage: page }">
+            <td scope="col">
+              <div class="action-buttons">
+                  <i class="fa fa-camera-retro bigger-130" *ngIf="GTR.GiftGivenDate == null " (click)="UploadGiftToRetailerPic(GTR.StoreVisitID)"></i>
+                  <a class="blue" (click)="GetPic(GTR.GiftToRetailerPic, GTR.StoreName)" *ngIf="GTR.GiftToRetailerPic != '' && GTR.GiftGivenDate != null">
+                      <i class="fa fa-gift icon-size"></i>
+                  </a>
+              </div>
+          </td>
+            <td scope="col" *ngIf="IsGiven == 1">{{GTR.GiftGivenDate | parseJsonDate}} {{GTR.GiftGivenTime }}</td>
+            <td scope="col">{{GTR.District}}</td>
+            <td scope="col">{{GTR.Location}}</td>
+            <td scope="col">{{GTR.StoreName}}</td>
+            <!-- <td scope="col" *ngIf="IsGiven == 1 && GTR.ChangeFlag == 1">      
+                <a style="color: black">
+                    <input #fileInput type="file" hidden 
+                    (change)="SelectPicFile($event, GTR.StoreVisitID, GTR.GiftGivenDate, GTR.GiftGivenTime)">
+                    <i (click)="fileInput.click()" *ngIf="GTR.GiftToRetailerPic != null">Change Pic</i>
+                </a>
+            </td> -->
+          </tr>
+        </tbody>
+    </table>
+    <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':ModalUploadPic}">
+<div class="modal-dialog" role="document">
+	<div class="modal-content">
+	<div class="modal-header">
+		<h4 class="modal-title">Gift To Retailer</h4>
+	</div>
+	<div class="modal-body">
+		<div class="col-sm-12">
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Upload Photo</label>
+                <div class="col-sm-9">
+                    <input  id="UploadPic_GiftPending" class="form-control input-control-color" type="file" (change)="GiftRetailerPic($event)" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Date</label>
+                <div class="col-sm-9">
+                    <input class="form-control input-control-color" type="date" [(ngModel)]="GiftGivenDate" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Time</label>
+                <div class="col-sm-9">
+                    <input id="Time" class="form-control input-control-color" type="time" [(ngModel)]="GiftGivenTime" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 text-center">
+            <button type="button" class="btn btn-info" data-dismiss="modal" (click)="UpdateGift()">Save</button>
+        </div>
+
+    </div>
+	<div class="modal-footer"> 
+		<!-- <div><span style="text-align:left">Modal Footer</span></div> -->
+		<div><button type="button" class="btn btn-danger" (click)="closePopup()">Close</button>
+        </div>
+	</div>
+	</div>
+</div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':myPopup}" >
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-md-10 text-center"><h4>StoreName : {{StoreName}}</h4></div>
+                <div class="col-md-2"><button type="button" class="btn-close"
+                    (click)="closePopup()"></button></div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <img [src]="ShowImgURL" class="img-responsive img-thumbnail" />
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

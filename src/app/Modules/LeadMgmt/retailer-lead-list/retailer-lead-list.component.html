@@ -1,0 +1,243 @@
+
+<div class="page-header">
+    <h3 class="pageheader-title pageheader-color">Retailer Lead List - Allocate Caller</h3>
+</div>
+<hr>
+<form>
+  <div class="row align-items-center g-3">
+    <div class="col-auto">
+      <div class="input-group" style="width:300px;">
+       <div class="input-group-text">Upload Month</div>
+       <select class="form-control form-select input-control-color" id="Month" name="Month" [(ngModel)]="Month">
+        <option value="">Select</option>
+        <option value="1">January</option>
+        <option value="2">February</option>
+        <option value="3">March</option>
+        <option value="4">April</option>
+        <option value="5">May</option>
+        <option value="6">June</option>
+        <option value="7">July</option>
+        <option value="8">August</option>
+        <option value="9">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <option value="12">December</option>
+      </select>
+      <select class="form-control form-select input-control-color" id="Year" name="Year" [(ngModel)]="Year">
+      <option value="">Select</option>
+      <option value="2023">2023</option>
+      <option value="2024">2024</option>
+      <option value="2025">2025</option>
+      <option value="2026">2026</option>
+      <option value="2027">2027</option>
+      <option value="2028">2028</option>
+      <option value="2029">2029</option>
+      <option value="2030">2030</option>
+    </select>
+    </div>
+  </div>
+  <!-- <div class="col-auto">
+    <div class="input-group" style="width:250px;">
+     <div class="input-group-text">Year</div>
+     <select class="form-control form-select input-control-color" id="Year" name="Year" [(ngModel)]="Year" (change)="PopulateLead()">
+      <option value="">Select</option>
+      <option value="2023">2023</option>
+      <option value="2024">2024</option>
+      <option value="2025">2025</option>
+      <option value="2026">2026</option>
+      <option value="2027">2027</option>
+      <option value="2028">2028</option>
+      <option value="2029">2029</option>
+      <option value="2030">2030</option>
+    </select>
+  </div>
+</div> -->
+<div class="col-auto">
+  <div class="input-group" style="width:300px;">
+    <div class="input-group-text">Mapped</div>
+    <select class="form-control form-select input-control-color" id="IsMapped" name="IsMapped" [(ngModel)]="IsMapped">
+      <option value="">Select</option>
+      <option value="0">Un-Mapped</option>      
+      <option value="2">Mapped But Calls Not Made</option>
+      <option value="1">Mapped & Calling Started</option>
+    </select>
+  </div>
+</div>
+<div class="col-auto">
+  <div class="form-check form-switch">
+    <input class="form-control form-check-input input-control-color" style="transform: scale(1.3); margin-right: 1rem;" type="checkbox" role="switch" id="VisitedBefore" ng-true-value="1" ng-false-value="0" name="ReachableBySales" [(ngModel)]="IsReachableBySales" (change)="ReachableBySalesOnChange($event)">
+    <label class="form-check-label input-control-color" for="VisitedBefore" style="margin-right: 1rem;">{{IsReachableBySales == false ? 'Non-':''}}Reachable</label>        
+  </div>
+</div>
+<div class="col-auto" [hidden]="IsReachableBySales == false">
+  <div class="input-group" style="width:210px;">
+    <div class="input-group-text">Visit</div>
+    <select class="form-control form-select input-control-color" id="VisitStatus" name="VisitStatus" [(ngModel)]="VisitStatus" (change)="VisitStatusOnChange($event)">
+      <option value="0">Select</option>
+      <option value="1">Not Visited</option>
+      <option value="2">Visited & no Call</option>
+      <option value="3">Visited & Called</option>
+    </select>
+  </div>
+</div>
+<div class="col-auto" *ngIf="IsReachableBySales == true && (VisitStatus == 2 || VisitStatus == 3)">
+  <div class="input-group" style="width:290px;">
+    <div class="input-group-text">Short Remark</div>
+    <select class="form-control form-select input-control-color" id="ShortRemark" name="ShortRemark" [(ngModel)]="ShortRemark">
+      <option value="">---All---</option>
+          <!-- <option value="Increased CD">Increased CD</option> -->
+            <option value="COD">COD</option>
+            <option value="Prepaid">Prepaid</option>
+            <option value="More Discount">More Discount</option>
+            <option value="Need Credit">Need Credit</option>
+            <option value="More Discount & Credit Both">More Discount & Credit Both</option>
+            <option value="Not Interested">Not Interested</option>
+            <option value="ON BOARD">ON BOARD</option>
+            <option value="Same Day Delivery">Same Day Delivery</option>            
+            <option value="Already ON BOARD">Already ON BOARD(Exisiting)</option>
+            <option value="Owner Not Present">Owner Not Present</option>
+    </select>
+  </div>
+</div>
+<div class="col-auto" *ngIf="IsReachableBySales == true && (VisitStatus == 2 || VisitStatus == 3)">
+  <div class="input-group" style="width:300px;">
+    <div class="input-group-text">Date</div>
+    <input class="form-control input-control-color" type="date" name="StartDate" [(ngModel)]="StartDate">
+    <input class="form-control input-control-color" type="date" name="EndDate" [(ngModel)]="EndDate">  
+  </div>
+</div>
+<div class="col-auto">
+  <div class="input-group" style="width:300px;">
+   <div class="input-group-text"><i class="fa fa-search"></i></div>
+   <input type="text" class="form-control input-control-color" id="inlineFormInputKeyword" name="Keyword" placeholder="Search by Name, Pin Code, Contact No, Email" [(ngModel)]="Keyword" (keyup)="PopulateLead()">
+ </div>
+</div> 
+<div class="col-auto">
+  <div class="input-group">
+    <button class="btn btn-primary" (click)="SearchData()">Search</button>
+  </div>
+</div>
+<div class="col-auto">
+  <div class="input-group">
+    <h5 class="pageheader-color">No. of records: <font color="green">{{LeadMasterList.length}}</font></h5>
+  </div>
+</div>
+</div>
+
+<!-- <br> -->
+<div style="height:4px;"></div>
+<div class="row" style="background-color: skyblue; padding: 6px;">
+<div class="col-auto">
+  <div class="input-group" style="width:250px;">
+   <div class="input-group-text">Caller</div>
+   <input type="text" class="form-control input-control-color" id="inlineFormInputKeyword" placeholder="Select telecaller" name="RMName" [(ngModel)]="RMName" (click)="ShowTelecallerPopup()">
+ </div>
+</div> 
+<div class="col-auto">
+  <div class="input-group" style="width:250px;">
+    <button class="btn btn-success" (click)="MapCaller()" *ngIf="RoleExists">Map Employee</button>
+  </div>
+</div>
+
+</div>
+
+</form>
+<div class="table-responsive">
+  <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="check1" name="option1" value="something" [(ngModel)]="masterSelected" (change)="checkUncheckAll()">
+              <!-- <label class="form-check-label"></label> -->
+            </div> 
+          </th>
+          <th scope="col">Upload Date</th>
+          <!-- <th scope="col">Source</th> -->
+          <th scope="col">Shop Name</th>
+          <th scope="col">Location</th>
+          <th scope="col">PinCode</th>
+          <th scope="col">Reachable?</th>
+          <th scope="col">State</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone</th>
+          <th scope="col" [hidden]="IsMapped == 0">Caller</th>
+          <th scope="col" *ngIf="IsReachableBySales == true && (VisitStatus == 2 || VisitStatus == 3)">Visitor</th>
+        </tr>
+      </thead>
+      <tbody>
+       <tr *ngFor="let lead of LeadMasterList | paginate: { itemsPerPage: 50, currentPage: page }">
+          <td scope="col">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="check1" name="option1" value="something" [(ngModel)]="lead.isSelected" (change)="isAllSelected()">
+              <!-- <label class="form-check-label">Pharma</label> -->
+            </div> 
+          </td>
+          <td scope="col">{{lead.UploadDate}}</td>
+          <!-- <td scope="col">{{lead.Source}}</td> -->
+          <td scope="col">{{lead.ShopName}}</td>
+          <td scope="col">{{lead.Location}}</td>
+          <td scope="col">{{lead.Pin_Code}}</td>
+          <td scope="col">{{lead.ReachableBySalesTeam}}</td>
+          <td scope="col">{{lead.State}}</td>
+          <td scope="col">{{lead.Email}}</td>
+          <!-- <td scope="col"><strong>Phone 1:-</strong> {{lead.ContactNumber1}}<br> 
+            <span *ngIf="lead.ContactNumber2 != undefined"><strong>Phone 2:-</strong> {{lead.ContactNumber2}}</span></td> -->
+          <td scope="col">{{lead.ContactNumber1}}<span *ngIf="lead.ContactNumber2 != undefined">, {{lead.ContactNumber2}}</span></td>
+          <td scope="col" [hidden]="IsMapped == 0">{{lead.CallerName}}</td>
+          <td scope="col" *ngIf="IsReachableBySales == true && (VisitStatus == 2 || VisitStatus == 3)">{{lead.VisitedBy}}</td>
+        </tr>
+      </tbody>
+    </table>
+     <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+</div>
+
+<!----------Telecaller Popup---------->
+<div class="modal" id="TelecallerListPopup" tabindex="-1" role="dialog"  [ngStyle]="{'display':TelecallerPopup}">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-md-10 text-center">
+                    <h4></h4>
+                </div>
+                <div class="col-md-2" style="text-align: right;"><button type="button" class="btn-close"
+                        (click)="HideTelecallerPopup()"></button></div>
+            </div>
+            <div style="padding: 10px 10px 0px 10px;">
+                <div class="input-group">
+                    <div class="input-group-text"><i class="fa fa-search"></i></div>
+                    <input type="text" class="form-control" id="inlineFormInputSearch" name="Search" [(ngModel)]="TelecallerSearch" (keyup)="PopulateTelecaller()">
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12" style='overflow:auto;'>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Select</th>
+                                    <th scope="col">Emp Name	</th>
+                                    <th scope="col">Emp Type	</th>
+                                    <th scope="col">Mobile</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let caller of TelecallerList">
+                                    <td scope="col">
+                                      <div class="form-check">
+                                        <input class="form-check-input" type="radio" id="check1" name="option1" value="something" (click)="SelectedTelecaller(caller.MemberID, caller.RMName)">
+                                        
+                                      </div>
+                                    </td>
+                                    <td scope="col">{{caller.RMName}}</td>
+                                    <td scope="col">{{caller.EmpTypeText}}</td>
+                                    <td scope="col">{{caller.Mobile}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

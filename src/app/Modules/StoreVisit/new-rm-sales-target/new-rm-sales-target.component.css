@@ -1,0 +1,27 @@
+.form-check-input:checked {
+    background-color: #35bb7d;
+    border-color: #35bb7d;
+}
+
+@media(min-width:578px) {
+    .checkMob {
+        min-width: 25%;
+    }
+}
+
+.fa-rupee {
+    font-size: 17px;
+    padding: 7px 12px;
+    border: 1px solid #c7cacd;
+    border-radius: 3px;
+    margin-right: -1px;
+}
+
+.mnSl {
+    margin-left: -2px;
+}
+
+.noedit{
+    pointer-events: none;
+    opacity: .85;
+}

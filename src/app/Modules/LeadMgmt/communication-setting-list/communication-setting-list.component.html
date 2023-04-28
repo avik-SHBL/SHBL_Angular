@@ -1,0 +1,97 @@
+
+<div class="page-header">
+    <h3 class="pageheader-title pageheader-color">Communication Settings List</h3>
+</div>
+<hr>
+<form>
+  <div class="row align-items-center g-3">
+    <div class="col-auto">
+      <div class="input-group" style="width:250px;">
+       <div class="input-group-text">Start Date</div>
+       <input type="date" class="form-control input-control-color" id="StartDate" name="StartDate" [(ngModel)]="StartDate" (change)="PopulateGrid()">
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="input-group" style="width:250px;">
+     <div class="input-group-text">End Date</div>
+     <input type="date" class="form-control input-control-color" id="EndDate" name="EndDate" [(ngModel)]="EndDate" (change)="PopulateGrid()">
+  </div>
+</div>
+<div class="col-auto">
+  <div class="input-group" style="width:250px;">
+    <div class="input-group-text">Reachable Status</div>
+    <select class="form-control form-select input-control-color" id="exampleInputReachable" name="IsReachable" [(ngModel)]="IsReachable" (change)="PopulateGrid()">
+    	<option value="All">All</option>
+    	<option value="Yes">Reachable</option>
+    	<option value="No">Not Reachable</option>
+    </select>
+  </div>
+</div>
+<div class="col-auto">
+  <div class="input-group" style="width:250px;">
+   <div class="input-group-text"><i class="fa fa-search"></i></div>
+   <input type="text" class="form-control input-control-color" id="inlineFormInputKeyword" name="Keyword" placeholder="Search" [(ngModel)]="Keyword" (keyup)="PopulateGrid()">
+ </div>
+</div> 
+<div class="col-auto">
+  <div class="input-group">
+    <h5 class="pageheader-color">No. of records: <font color="green">{{CommunicationSettingsList.length}}</font></h5>
+  </div>
+</div>
+</div>
+</form>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Setting</th>
+          <th scope="col">View</th>
+          <th scope="col">Pub Date</th>
+          <th scope="col">State</th>
+          <th scope="col">District</th>
+          <th scope="col">Message</th>
+          <th scope="col">Email</th>
+          <th scope="col">SMS</th>
+          <th scope="col">WhatsApp</th>
+          
+          <th scope="col">Called?</th>
+          <th scope="col">Calling Status</th>
+
+          <th scope="col">Reachable?</th>
+          <th scope="col">Visited?</th>
+          <th scope="col">Visit Remark</th>
+          
+          <th scope="col">1st Time Message?</th>
+          <th scope="col" colspan="2">Upload Date Range</th>
+          <!-- <th scope="col">Upload End</th> -->
+        </tr>
+      </thead>
+      <tbody>
+       <tr *ngFor="let cs of CommunicationSettingsList">
+          <td scope="col"><a href="Home/CommunicationSettings/{{cs.SettingID}}"><i class="fa fa-cogs icon-size text-blue"></i></a></td>
+          <td scope="col"><a href="{{apiUrl}}/Report/LeadListCommunicationReport?id={{cs.SettingID}}" target="_blank"><i class="fa fa-eye icon-size text-blue"></i></a></td>
+          <td scope="col">{{cs.PublishDate}}</td>
+          <td scope="col">{{cs.StateName}}</td>
+          <td scope="col">{{cs.District}}</td>
+          <td scope="col">{{cs.MessageText}}</td>
+          <td scope="col"><i class="fa fa-check icon-size text-success" [hidden]="cs.IsEmail == 0"></i></td>
+          <td scope="col"><i class="fa fa-check icon-size text-success" [hidden]="cs.IsSMS == 0"></i></td>
+          <td scope="col"><i class="fa fa-check icon-size text-success" [hidden]="cs.IsWhatsApp == 0"></i></td>
+
+          <td scope="col">{{cs.CallingState}}</td>
+          <td scope="col">{{cs.CallingStatus}}</td>
+
+          <td scope="col">{{cs.IsReachable}}</td>
+          
+          <td scope="col">{{cs.IsVisited}}</td>
+          <td scope="col">{{cs.VisitShortRemark}}</td>
+          
+          <td scope="col">{{cs.IsFirstTimeMsg}}</td>
+          
+          <td scope="col">{{cs.UploadStartDate}}</td>
+          <td scope="col">{{cs.UploadEndDate}}</td>          
+        </tr>
+      </tbody>
+    </table>
+</div>

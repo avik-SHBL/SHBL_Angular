@@ -1,0 +1,76 @@
+<!-- <p>dashboard works!</p> -->
+
+<div class="page-header">
+    <h3 class="pageheader-title pageheader-color">Retailershakti Marketing Dashboard</h3>
+</div>
+<hr>
+
+<form>
+    <div class="row align-items-center g-3">
+      <div class="col-auto">
+        <div class="input-group">
+          <div class="input-group-text">Start Date</div>
+          <input type="date" class="form-control" id="inlineFormInputStartDate" name="StartDate" [(ngModel)]="StartDate">
+        </div>
+      </div>
+        <div class="col-auto">
+            <div class="input-group">
+          <div class="input-group-text">End Date</div>
+          <input type="date" class="form-control" id="inlineFormInputEndDate" name="EndDate" [(ngModel)]="EndDate">
+        </div>
+        </div>
+        <!-- <div class="col-auto">
+            <div class="input-group">
+          <div class="input-group-text"><i class="fa fa-search"></i></div>
+          <input type="text" class="form-control" id="inlineFormInputSearch" name="Keyword" [(ngModel)]="Keyword">
+        </div>
+        </div>  --> 
+        <div class="col-auto">
+            <div class="input-group">
+          <!-- <div class="input-group-text"><i class="fa fa-search"></i></div> -->
+          <button class="btn btn-success" (click)="GenerateReport()">Generate</button>
+        </div>
+        </div>  
+    </div>
+</form>
+
+<div class="row pt-3">
+<div class="col-md-6">
+  <div class="card">
+  <div class="card-body"><canvas style="height:300px;" id="DistrictChart"></canvas></div>
+</div>
+</div>
+<div class="col-md-6">
+  <div class="card">
+  <div class="card-body"><canvas style="height:300px;" id="ROChart"></canvas></div>
+</div>
+</div>
+<div class="col-md-6">
+  <div class="card">
+  <div class="card-body">
+    <!-- <canvas style="height:300px;" id="RemarkStatusChart"></canvas> -->
+    <canvas style="height:300px;" baseChart *ngIf="pieChartData"
+    [data]="pieChartData" 
+    [labels]="pieChartLabels" 
+    [chartType]="pieChartType"
+    [options]="pieChartOptions"
+    [plugins]="pieChartPlugins"
+    [legend]="pieChartLegend"
+    [colors]="pieChartColors">
+  </canvas>
+    </div>
+</div>
+</div>
+<div class="col-md-6">
+  <div class="card">
+  <div class="card-body"><canvas style="height:300px;" id="OnBoardStatusChart"></canvas></div>
+</div>
+</div>
+<!-- <div class="col-md-12">
+  <div class="card">
+    <div class="card-body">
+      <iframe id="ReportFrame" [src]="url | safe" style="border:none;width:100%; font-size:5pt !important;height: 940px; min-height: 940px;" ></iframe>
+    </div>
+  </div>
+</div> -->
+</div>

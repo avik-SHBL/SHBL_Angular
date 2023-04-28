@@ -1,0 +1,28 @@
+<!-- <p>layout works!</p> -->
+
+<div class="wrapper">        
+    <app-sidebar style="background-color: #4775d1;" *ngIf="routeURL.indexOf('Popup') == -1"></app-sidebar>
+
+    <div class="main">
+
+        <app-header *ngIf="routeURL.indexOf('Popup') == -1"></app-header>
+
+        <main class="" style="padding: 20px 26px 20px 26px;">
+            <div class="container-fluid p-0">
+
+                <!--main-->
+                <ng-container *ngIf="showNotification">
+                    <div class="viewNote">
+                        <div id="div3">** All RM are requested to fill Daily Hygiene Tracker !!</div>
+                    </div>
+                </ng-container>
+                <router-outlet></router-outlet>
+
+            </div>
+        </main>
+
+        <app-footer></app-footer>
+
+    </div>
+
+</div>

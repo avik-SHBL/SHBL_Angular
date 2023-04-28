@@ -1,0 +1,37 @@
+<!-- <p>km-calculation works!</p> -->
+
+        <div class="page-header">
+        	<h3 class="pageheader-title pageheader-color">Travelling Allowance Report</h3>
+        </div>
+        <hr>
+
+        <form>
+        	<div class="g-3">
+        		<div class="row mb-3">
+
+        			<div class="input-group">
+        				<div class="input-group-text" Style="padding-left:3px;padding-right:6px;">Date Range</div><br/>
+        				<input type="date" class="form-control" Style="padding-left:5px;padding-right:5px;" id="inlineFormInputStartDate" name="StartDate" [(ngModel)]="StartDate">&nbsp;
+        				<input type="date" class="form-control" Style="padding-left:5px;padding-right:5px;" id="inlineFormInputEndDate" name="EndDate" [(ngModel)]="EndDate">
+        			</div>
+        		</div>
+
+        		<div class="row mb-3">
+        			<label style="padding-left:10px" >&nbsp;<input class="form-check-input" type="checkbox" id="inlineFormInputShowDefault" name="IsSummary" ng-true-value="1" ng-false-value="0"  [(ngModel)]="IsSummary"><span class="list-group-item-text text-success"><i class="fa fa-fw"></i>Summary</span>
+                </label>
+        		</div>
+
+        		<div class="row mb-3">
+        			<div class="input-group">
+        				<!-- <div class="input-group-text"><i class="fa fa-search"></i></div> -->
+        				<button class="btn btn-success" (click)="GenerateReport()">Generate</button>
+        			</div>
+        		</div>  
+        	</div>
+        </form>
+
+        <div class="col-md-12 pt-3">
+        	<div class="card">
+        		<iframe id="ReportFrame" [src]="url | safe" style="border:none; width:100%; font-size:5pt !important;height: 940px; min-height: 940px;" ></iframe>
+        	</div>
+        </div>

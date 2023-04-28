@@ -1,0 +1,77 @@
+<!-- <p>new-rm-sales-target-list works!</p> -->
+<ng-container *ngIf="NewRmList">
+  <div class="page-header">
+    <h3 class="pageheader-title pageheader-color">New RM Sales Target List</h3>
+  </div>
+  <hr>
+  
+  <form>
+    <div class="row align-items-center g-3">
+      <div class="col-auto col-sm-5 col-12">
+        <div class="input-group">
+          <div class="input-group-text"><i class="fa fa-search"></i></div>
+          <input type="text" class="form-control" name="Search" [(ngModel)]="Search" (keyup)="PopulateGrid()">
+        </div>
+      </div>
+      <div class="col-auto">
+        <a [routerLink]="['/Home/NewRmSalesTarget']" type="button" class="btn btn-info" id="inputAddNew">Add New +</a>
+      </div>
+    </div>
+  </form>
+
+  <ng-container *ngIf="notFound">
+    <div class="notfoundbox mt-3">
+        <i class="fa fa-frown-o mb-3" style="font-size:48px; color:#4775d1"></i>
+        <h5 class="notfoundText">No Matching record Found...</h5>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!notFound">
+    <div class="mt-3">
+      <ng-container *ngFor="let Target of NewRMSalesTargetList">
+        <div class="targetDisplay">
+          <div>
+            <p class="mb-2" style="color: #4775d1"><span class="fw-bold">Target For : <span class="text-uppercase">{{Target.IsDefault==0?Target.RMName:'Default'}}</span></span></p>
+            <p class="mb-2">With Effect From : <span class="fw-bold">{{Target.WithEffectFrom}}</span></p>
+          </div>
+          <hr class="my-2">
+          <div class="cards">
+            <div class="stcard">
+              <p class="mb-2">Visit Type : <span class="fw-bold">{{Target.VisitType}}</span></p>
+            </div>
+            <div class="stcard">
+              <p class="mb-2">Days Of Work : <span class="fw-bold">{{Target.DaysOfWork}}</span></p>
+            </div>
+            <div class="stcard">
+              <p class="mb-2">Daily Visit : <span class="fw-bold">{{Target.DailyVisit}}</span></p>
+            </div>
+            <div class="stcard">
+              <p class="mb-2">Monthly Visit : <span class="fw-bold">{{Target.MonthlyVisit}}</span></p>
+            </div>
+            <div class="stcard">
+              <p class="mb-2">Daily Min New Order : <span class="fw-bold">{{Target.DailyNewOrderMinimum}}</span></p>
+            </div>
+            <div class="stcard">
+              <p class="mb-2">Monthly Min New Order : <span class="fw-bold">{{Target.MonthlyNewOrderMinimum}}</span></p>
+            </div>
+            <div class="stcard">
+              <p class="mb-2">Monthly OnBoard : <span class="fw-bold">{{Target.MonthlyOnBoard}}</span></p>
+            </div>
+            <div class="stcard">
+              <p class="mb-2">Monthly 5L Retailer : <span class="fw-bold">{{Target.RetailerCount5Lakh}}</span></p>
+            </div>
+            <div class="stcard">
+              <p class="mb-2">Expected Monthly Sale : <span class="fw-bold">{{Target.ExpectedMonthlySale | currency:'INR'}}</span></p>
+            </div>
+          </div>
+          <hr class="mt-1 mb-2">
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-edit" [ngStyle]="{'color':(Target.AllowEdit === 0) ? 'gray' : '' }" (click)="setEdit(Target.SalesTargetID)" [disabled]="Target.AllowEdit === 0"><i class="fa fa-edit me-2"></i>Edit</button>
+            <button class="btn btn-del" [ngStyle]="{'color':(Target.AllowEdit === 0) ? 'gray' : '' }" (click)="Delete(Target.SalesTargetID)" [disabled]="Target.AllowEdit === 0"><i class="fa fa-trash me-2"></i>Delete</button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+  
+</ng-container>

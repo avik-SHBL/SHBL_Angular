@@ -1,0 +1,179 @@
+<!-- <p>store-visit works!</p> -->
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-6">
+            <h3 class="pageheader-title pageheader-color">Store Visit Entry</h3> 
+        </div>
+        <div class="col-sm-6">
+            <h5 id="lblForLocation"></h5> 
+      </div>
+  </div>  
+</div>
+<hr>
+<form [formGroup]="StoreVisitForm" (ngSubmit)="Save()">
+    <div [hidden]="StoreVisitForm.controls['StoreVisitID'] == null && SaveStatus == 1">
+        <div class="row mb-3">
+            <label for="exampleInputVisitDate" class="col-sm-2 col-form-label">Visit Date</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control input-control-color" id="exampleInputVisitDate" name="VisitDate" formControlName="VisitDate" [ngClass]="{ 'is-invalid': submitted && f.VisitDate.errors }" [max]="getToday()">
+                <div *ngIf="submitted && f.VisitDate.errors" class="invalid-feedback">
+                    <div *ngIf="f.VisitDate.errors.required">Visit Date is required</div>
+                </div>
+                <!-- <div class="form-text">We'll never share your email with anyone else.</div>  -->
+            </div>      
+        </div>
+        <div class="row mb-3">
+            <label for="exampleInputLocation" class="col-sm-2 col-form-label">Location<span class="text-red">*</span></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control input-control-color" id="exampleInputLocation" placeholder="Enter Location" [ngClass]="{ 'is-invalid': submitted && f.Location.errors }" name="Location" formControlName="Location">
+                <div *ngIf="submitted && f.Location.errors">
+                    <div class="form-text" *ngIf="f.Location.errors.required">Location is required</div>  
+                </div>
+            </div>
+        </div> 
+        <div class="row mb-3">
+            <label for="exampleInputDistrict" class="col-sm-2 col-form-label">District<span class="text-red">*</span></label>
+            <div class="col-sm-10">
+                <select class="form-control form-select input-control-color" id="exampleInputDistrict" [ngClass]="{ 'is-invalid': submitted && f.District.errors }" name="District" formControlName="District">
+                 <option value="">---Select---</option>
+                 <option *ngFor="let dst of DistrictList" value="{{dst.DistrictID}}">
+                  {{dst.District}}
+              </option> 
+          </select>
+          <div *ngIf="submitted && f.District.errors">
+            <div class="form-text" *ngIf="f.District.errors.required">District is required</div>  
+        </div>
+    </div>
+</div>    
+<div class="row mb-3">
+    <label for="exampleInputPinCode" class="col-sm-2 col-form-label">Pin Code</label>
+    <div class="col-sm-10">
+        <input type="text" class="form-control input-control-color" id="exampleInputPinCode" placeholder="Enter Pin Code"  name="PinCode" formControlName="PinCode" minlength="6">
+        <div *ngIf="submitted && f.PinCode.errors">
+            <!-- <div class="form-text" *ngIf="f.PinCode.errors.required">Pin Code is required</div>  
+                [ngClass]="{ 'is-invalid': submitted && f.PinCode.errors }"-->
+                <div class="form-text" *ngIf="StoreVisitForm.get('PinCode').hasError('minlength')">Invalid Pin Code</div> 
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="exampleInputStoreName" class="col-sm-2 col-form-label">Store Name<span class="text-red">*</span></label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control input-control-color" id="exampleIn?putStoreName" placeholder="Enter Store Name" [ngClass]="{ 'is-invalid': submitted && f.StoreName.errors }" name="StoreName" formControlName="StoreName">
+            <div *ngIf="submitted && f.StoreName.errors">
+                <div class="form-text" *ngIf="f.StoreName.errors.required">Store Name is required</div>  
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="exampleInputStoreOpeningTime" class="col-sm-2 col-form-label">Store Opening Time</label>
+        <div class="col-sm-10">
+            <input type="time" class="form-control input-control-color" id="exampleInputStoreOpeningTime" name="StoreOpeningTime" formControlName="StoreOpeningTime">
+        <!-- <div *ngIf="submitted && f.StoreOpeningTime.errors">[ngClass]="{ 'is-invalid': submitted && f.StoreOpeningTime.errors }"
+            <div class="form-text" *ngIf="f.StoreOpeningTime.errors.required">Store Opening Time is required</div>  
+        </div> -->
+    </div>
+</div>
+<div class="row mb-3">
+    <label for="exampleInputStoreClosingTime" class="col-sm-2 col-form-label">Store Closing Time</label>
+    <div class="col-sm-10">
+        <input type="time" class="form-control input-control-color" id="exampleInputStoreClosingTime" name="StoreClosingTime" formControlName="StoreClosingTime">
+        <!-- <div *ngIf="submitted && f.StoreClosingTime.errors">[ngClass]="{ 'is-invalid': submitted && f.StoreClosingTime.errors }"
+            <div class="form-text" *ngIf="f.StoreClosingTime.errors.required">Store Closing Time is required</div>  
+        </div> -->
+    </div>
+</div>
+<div class="row mb-3">
+    <label for="exampleInputStoreClosedOn" class="col-sm-2 col-form-label">Store Closed On</label>
+    <div class="col-sm-10">
+        <input type="text" class="form-control input-control-color" id="exampleInputStoreClosedOn" placeholder="Enter Store Closed On" name="StoreClosedOn" formControlName="StoreClosedOn">
+    </div>
+</div>
+<div class="row mb-3">
+    <label for="exampleInputContactPerson" class="col-sm-2 col-form-label">Contact Person</label>
+    <div class="col-sm-10">
+        <input type="text" class="form-control input-control-color" id="exampleInputContactPerson" placeholder="Enter Contact Person" name="ContactPerson" formControlName="ContactPerson">
+        <!-- <div *ngIf="submitted && f.ContactPerson.errors">[ngClass]="{ 'is-invalid': submitted && f.ContactPerson.errors }"
+            <div class="form-text" *ngIf="f.ContactPerson.errors.required">Contact Person is required</div> 
+        </div> -->
+    </div>
+</div>
+<div class="row mb-3">
+    <label for="exampleInputContactNo" class="col-sm-2 col-form-label">Contact No.</label>
+    <div class="col-sm-10">
+        <input type="text" class="form-control input-control-color" id="exampleInputContactNo" placeholder="Enter Contact No." name="ContactNo" formControlName="ContactNo">
+        <!-- <div *ngIf="submitted && f.ContactNo.errors">[ngClass]="{ 'is-invalid': submitted && f.ContactNo.errors }"
+            <div class="form-text" *ngIf="f.ContactNo.errors.required">Contact No is required</div>  
+        </div> -->
+    </div>
+</div>
+<div class="row mb-3">
+    <label for="exampleInputShortRemark" class="col-sm-2 col-form-label">Short Remark<span class="text-red">*</span></label>
+    <div class="col-sm-10">
+        <select class="form-control form-select input-control-color" id="exampleInputShortRemark" [ngClass]="{ 'is-invalid': submitted && f.ShortRemark.errors }" name="ShortRemark" formControlName="ShortRemark">
+        	<option value="">---Select---</option>
+        	<!-- <option value="Increased CD">Increased CD</option> -->
+            <option value="COD">COD</option>
+            <option value="More Discount">More Discount</option>
+            <option value="Need Credit">Need Credit</option>
+            <option value="Not Interested">Not Interested</option>
+            <option value="ON BOARD">ON BOARD</option>
+            <option value="Same Day Delivery">Same Day Delivery</option>
+        </select>
+        <div *ngIf="submitted && f.ShortRemark.errors">
+            <div class="form-text" *ngIf="f.ShortRemark.errors.required">Short Remark is required</div>  
+        </div>
+    </div>
+</div>
+<div class="row mb-3">
+    <label for="exampleInputRevisit" class="col-sm-2 col-form-label">Revisit</label>
+    <div class="col-sm-10">
+        <select class="form-control form-select input-control-color" id="exampleInputRevisit" name="Revisit" formControlName="Revisit" (change)="onChangeRevisit()">
+            <option value="">---Select---</option>
+            <option value="Revisit - Not installed">Revisit - Not installed</option>
+            <option value="Revisit - Installed">Revisit - Installed</option>
+        </select>
+    </div>
+</div>
+<div class="row mb-3" *ngIf="StoreVisitForm.controls['Revisit'].value == 'Revisit - Not installed' || StoreVisitForm.controls['Revisit'].value == 'Revisit - Installed' ">
+    <label for="exampleInputRevisitDate" class="col-sm-2 col-form-label">Revisit Date</label>
+    <div class="col-sm-10">
+        <input type="date" class="form-control input-control-color" id="exampleInputRevisitDate" name="RevisitDate" formControlName="RevisitDate" (change)="onChangeRevisitDate()">
+    </div>
+</div>
+<div class="row mb-3">
+    <label for="exampleInputDetailRemark" class="col-sm-2 col-form-label">Detail Remark</label>
+    <div class="col-sm-10">
+        <textarea type="text" class="form-control input-control-color" id="exampleInputDetailRemark" placeholder="Enter Detail Remark" name="DetailRemark" formControlName="DetailRemark" rows="4"></textarea>
+    </div>
+</div>
+<div class="row mb-3">
+    <label for="exampleInputFeedback" class="col-sm-2 col-form-label">Feedback</label>
+    <div class="col-sm-10">
+        <textarea type="text" class="form-control input-control-color" id="exampleInputFeedback" placeholder="Enter Feedback" name="Feedback" formControlName="Feedback" rows="4"></textarea>        
+    </div>                        
+</div>
+<div class="text-center">
+  <button type="submit" class="btn btn-primary">Submit</button> <!--[disabled]="disableSaveBtn"-->
+  <!-- <br /><label id="lblForLocation"></label> -->
+</div>
+</div>
+</form>
+<div class="alert alert-warning" role="alert" *ngIf="StoreVisitForm.controls['StoreVisitID'] == null && SaveStatus == 1">
+    <div class="row mb-3">
+        <label for="exampleInputStorePic" class="col-sm-2 col-form-label text-primary">Take Store Picture Now!</label>
+        <div class="col-sm-10">        
+            <input type="file" class="form-control input-control-color" id="exampleInputStorePic" accept="image/*" capture="camera" (change)="CameraCapture($event)">
+        </div>  
+        <span class="alert-link">{{LoadingText}}</span>     
+        <a href= "Home/StoreVisitList" *ngIf="imgResultAfterCompress">Goto Visit List</a>
+        <img *ngIf="imgResultAfterCompress" [src]="imgResultAfterCompress" alt="" id='PreviewPic' class="img-fluid img-thumbnail"/>
+
+        
+    </div>
+    
+</div>
+
+
+

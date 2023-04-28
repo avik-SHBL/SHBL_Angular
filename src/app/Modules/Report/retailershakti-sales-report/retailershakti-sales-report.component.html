@@ -1,0 +1,82 @@
+<!-- <p>retailershakti-sales-report works!</p> -->
+
+<div class="page-header">
+	<h3 class="pageheader-title pageheader-color">Retailershakti Sales Analysis & Detail Report</h3>
+</div>
+<hr>
+
+<form>
+    <div class="row align-items-center g-3">
+        
+        <div class="col-auto">
+        	<div class="input-group">
+        		<div class="input-group-text">Month</div>
+        		<select class="form-control form-select input-control-color" id="exampleInputMonth"
+        		name="Month" [(ngModel)]="Month">
+        		<option value="0">---Select---</option>
+        		<option *ngFor="let mon of MonthArr" value="{{mon.id}}">
+        			{{mon.month}}
+        		</option>
+        	</select>
+        </div>
+        </div>
+
+        <div class="col-auto">
+        	<div class="input-group">
+        		<div class="input-group-text">Financial Year</div>
+        		<select class="form-control form-select input-control-color" id="exampleInputFinYear"
+        		name="FinYear" [(ngModel)]="FinYear">
+        		<option value="">---Select---</option>
+        		<option *ngFor="let fy of FinYearArr" value="{{fy.finyear}}">
+        			{{fy.finyear}}
+        		</option>
+        	</select>
+        </div>
+        </div>  
+
+        <div class="col-auto">
+        	<div class="input-group">
+        		<div class="input-group-text">RM</div>
+        		<select class="form-control form-select input-control-color" id="exampleInputRM" name="RM" [(ngModel)]="RMID">
+                   <option value="0">---Select---</option>
+                   <option *ngFor="let rm of RMArr" value="{{rm.MemberID}}">
+                      {{rm.FirstName}}
+                  </option> 
+              </select>
+        </div>
+        </div>    
+        
+        <div class="col-auto">
+        	<div class="input-group">
+        		<div class="input-group-text">Pincode</div>
+        		<input class="form-control input-control-color" id="Pincode" name="Pincode" Type="text" [(ngModel)]="Pincode" />
+        </div>
+        </div>  
+
+        <div class="col-auto">
+        	<div class="input-group">
+        		<!-- <div class="input-group-text">Detail Report</div> -->
+						<span class="list-group-item-text text-success"><i class="fa fa-fw"></i>Detail Report</span>
+						<label style="padding-left:10px" >&nbsp;<input class="form-check-input" type="checkbox" id="inlineFormInputShowDefault" name="IsSummary" ng-true-value="1" ng-false-value="0"  [(ngModel)]="IsDetailReport">
+							</label>
+        </div>
+        </div>
+
+
+        <div class="col-auto">
+            <div class="input-group">
+              <button class="btn btn-success" (click)="GenerateLostSalesReport()">Lost Sales</button>&nbsp;&nbsp;&nbsp;
+              <button class="btn btn-success" (click)="GenerateAnalysisReport()">Sales Analysis</button>&nbsp;&nbsp;&nbsp;
+              <button class="btn btn-success" (click)="GenerateReport()">Sales Details</button>
+          
+        </div>
+        </div>  
+    </div>
+</form>
+
+<div class="col-md-12 pt-3">
+  <div class="card">
+    <iframe id="ReportFrame" [src]="url | safe" style="border:none; width:100%; font-size:5pt !important;height: 940px; min-height: 940px;" ></iframe>
+  </div>
+</div>
+

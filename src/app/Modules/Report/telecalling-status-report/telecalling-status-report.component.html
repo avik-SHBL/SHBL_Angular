@@ -1,0 +1,158 @@
+<!-- <p>telecalling-status-report works!</p> -->
+
+<div class="page-header">
+    <h3 class="pageheader-title pageheader-color">Telecalling Status Report</h3>    
+</div>
+<hr>
+
+<form>
+	<div class="row align-items-center g-3">
+		<div class="col-auto">
+			<div class="input-group">
+				<div class="input-group-text">Month</div>
+				<select name="iMonth" class="form-control form-select input-control-color" [(ngModel)]="Month">
+					<!--<option value="">Select</option>-->
+					<option value="1">January</option>
+					<option value="2">February</option>
+					<option value="3">March</option>
+					<option value="4">April</option>
+					<option value="5">May</option>
+					<option value="6">June</option>
+					<option value="7">July</option>
+					<option value="8">August</option>
+					<option value="9">September</option>
+					<option value="10">October</option>
+					<option value="11">November</option>
+					<option value="12">December</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-auto">
+			<div class="input-group">
+				<div class="input-group-text">Year</div>
+				<select name="iYear" class="form-control form-select input-control-color" [(ngModel)]="Year">
+					<!--<option value="">Select</option>-->
+					<option value="2023">2023</option>
+					<option value="2024">2024</option>
+					<option value="2025">2025</option>
+					<option value="2026">2026</option>
+					<option value="2027">2027</option>
+					<option value="2028">2028</option>
+					<option value="2029">2029</option>
+					<option value="2030">2030</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-auto">
+			<div class="input-group">
+				<div class="input-group-text">Caller</div>
+				<input type="text" class="form-control input-control-color" id="inlineFormInputKeyword" placeholder="Select telecaller" name="RMName" [(ngModel)]="RMName" (click)="ShowTelecallerPopup()">
+			</div>
+		</div>
+		<div class="col-auto">
+			<div class="input-group">
+				<div class="input-group-text">Calling Status</div>
+				<select class="form-control form-select input-control-color" name="CallingStatus" [(ngModel)]="CallingStatus">
+					<option value="1">Interested</option>
+					<option value="2">Follow Up</option>
+					<option value="3">Not Contactable</option>
+					<option value="4">Not Interested</option>
+					<option value="5">Rejected</option>
+					<option value="6">Others States</option>
+					<option value="7">Overlapping Locations</option>
+					<option value="10">Overlapping Potential Lead</option>
+					<option value="8">Pending</option>
+					<option value="9">WIP</option>
+					<option value="0">All</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-auto">
+			<div class="input-group">
+				<div class="input-group-text">Source Media</div>
+				<select class="form-control form-select input-control-color" id="inlineFormInputSourceMedia" name="SourceMedia" [(ngModel)]="SourceMedia">
+					<option value="">Select</option>
+					<option value="Digital">Digital</option>
+					<option value="Website">Website</option>
+					<option value="Newspaper">Newspaper</option>
+					<option value="Promotion Activity">Promotion Activity</option>
+					<option value="HB Reference">HB Reference</option>
+					<option value="Employee Reference">Employee Reference</option>
+					<option value="CRM">CRM</option>
+					<option value="HB Store Banner">HB Store Banner</option>
+					<option value="Customer SMS">Customer SMS</option>
+					<option value="Other">Other</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-auto">
+			<div class="input-group">
+				<div class="input-group-text">Media Details</div>
+				<input type="text" class="form-control input-control-color" id="inlineFormInputMediaDetails" placeholder="Enter media details" name="MediaDetails" [(ngModel)]="MediaDetails">
+			</div>
+		</div>
+		<div class="col-auto">
+			<div class="input-group">
+				<!-- <div class="input-group-text"><i class="fa fa-search"></i></div> -->
+				<button class="btn btn-success" (click)="GenerateReport()">Generate Report</button>
+			</div>
+		</div>  
+	</div>
+</form>
+
+<div class="col-md-12 pt-3">
+  <div class="card">
+      <iframe id="ReportFrame" [src]="url | safe" style="border:none; width:100%; font-size:5pt !important;height: 940px; min-height: 940px;" ></iframe>
+  </div>
+</div>
+
+<!----------Telecaller Popup---------->
+<div class="modal" id="TelecallerListPopup" tabindex="-1" role="dialog"  [ngStyle]="{'display':TelecallerPopup}">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-md-10 text-center">
+                    <h4></h4>
+                </div>
+                <div class="col-md-2" style="text-align: right;"><button type="button" class="btn-close"
+                        (click)="HideTelecallerPopup()"></button></div>
+            </div>
+            <div style="padding: 10px 10px 0px 10px;">
+                <div class="input-group">
+                    <div class="input-group-text"><i class="fa fa-search"></i></div>
+                    <input type="text" class="form-control" id="inlineFormInputSearch" name="Search" [(ngModel)]="TelecallerSearch" (keyup)="PopulateTelecaller()">
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12" style='overflow:auto;'>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Select</th>
+                                    <th scope="col">Emp Name	</th>
+                                    <th scope="col">Emp Type	</th>
+                                    <th scope="col">Mobile</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let caller of TelecallerList">
+                                    <td scope="col">
+                                      <div class="form-check">
+                                        <input class="form-check-input" type="radio" id="check1" name="option1" value="something" (click)="SelectedTelecaller(caller.MemberID, caller.RMName)">
+                                        
+                                      </div>
+                                    </td>
+                                    <td scope="col">{{caller.RMName}}</td>
+                                    <td scope="col">{{caller.EmpTypeText}}</td>
+                                    <td scope="col">{{caller.Mobile}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+

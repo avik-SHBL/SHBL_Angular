@@ -1,0 +1,276 @@
+<!-- <p>telecalling-lead-list works!</p> -->
+
+<div class="page-header">
+    <h3 class="pageheader-title pageheader-color">Lead List for <font color="green">Fresh</font> Calling</h3>    
+</div>
+<hr>
+
+<form>
+    <div class="row align-items-center g-3">
+    	<div class="col-auto">
+    		<div class="input-group" style="width:285px;">
+    			<div class="input-group-text">Month</div>
+    			<select name="iMonth" class="form-control form-select input-control-color" [(ngModel)]="Month" (change)="PopulateFreshCallsList()">
+    				<!--<option value="">Select</option>-->
+    				<option value="1">January</option>
+    				<option value="2">February</option>
+    				<option value="3">March</option>
+    				<option value="4">April</option>
+    				<option value="5">May</option>
+    				<option value="6">June</option>
+    				<option value="7">July</option>
+    				<option value="8">August</option>
+    				<option value="9">September</option>
+    				<option value="10">October</option>
+    				<option value="11">November</option>
+    				<option value="12">December</option>
+    			</select>
+    		</div>
+    	</div>
+        <div class="col-auto">
+            <div class="input-group">
+    			<div class="input-group-text">Year</div>
+    			<select name="iYear" class="form-control form-select input-control-color" [(ngModel)]="Year" (change)="PopulateFreshCallsList()">
+    				<!--<option value="">Select</option>-->
+    				<option value="2023">2023</option>
+    				<option value="2024">2024</option>
+    				<option value="2025">2025</option>
+    				<option value="2026">2026</option>
+    				<option value="2027">2027</option>
+    				<option value="2028">2028</option>
+    				<option value="2029">2029</option>
+    				<option value="2030">2030</option>
+    			</select>
+    		</div>
+        </div>
+        <div class="col-auto">
+            <div class="input-group">
+    			<div class="input-group-text">For</div>
+    			<select name="CallFor" class="form-control form-select input-control-color" [(ngModel)]="IsMyCall" (change)="PopulateFreshCallsList()">
+    				<option value="1">Me</option>
+    				<option value="0">All</option>
+    			</select>
+    		</div>
+        </div>
+        <div class="col-auto">
+            <div class="input-group" style="width:285px;">
+    			<div class="input-group-text"><i class="fa fa-search"></i></div>
+    			<input type="text" class="form-control input-control-color" id="inlineFormInputSearch" name="Keyword" placeholder="Search by State, Location, Name"  [(ngModel)]="Keyword" (keyup)="PopulateFreshCallsList()">
+    		</div>
+        </div> 
+        <div class="col-auto">
+        	<div class="input-group">
+        		<h5 class="pageheader-color">No. of records: <font color="green" size="4pt">{{FreshCalls_List.length}}</font></h5>		
+        	</div>
+        </div>
+    </div>
+</form>
+
+<div class="table-responsive">
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Calling</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Name</th>
+        <th scope="col">Location</th>
+        <th scope="col">PinCode</th>
+        <!-- <th scope="col">Source</th>                             -->
+        <th scope="col">State</th>
+        <th scope="col">Email</th>
+        <th scope="col">Caller</th>
+		<th scope="col">Visitor</th>
+		<th scope="col">VRemark</th>
+        <th scope="col">Upload Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let fc of FreshCalls_List | paginate: { itemsPerPage: 50, currentPage: page }">
+      	<td scope="col">
+      		<a href="#" data-bs-toggle="modal">
+				<i class="fa fa-phone bigger-130" (click)="ShowUpdateTelecallingStatusPopup(fc.LeadID, fc.ShopName, fc.Location, fc.VisitShortRemark)"></i>
+      		</a>
+      	</td>
+      	<td scope="col">{{fc.ContactNumber1}}<span *ngIf="fc.ContactNumber2 != undefined">, {{fc.ContactNumber2}}</span></td>
+        <td scope="col">{{fc.ShopName}}</td>
+        <td scope="col">{{fc.Location}}</td>
+        <td scope="col">{{fc.Pin_Code}}</td>
+        <!-- <td scope="col">Source</td>                             -->
+        <td scope="col">{{fc.StateName}}</td>
+        <td scope="col">{{fc.email}}</td>
+        <td scope="col">{{fc.RMName}}</td>
+		<td scope="col">{{fc.VisitorName}}</td>
+		<td scope="col">{{fc.VisitShortRemark}}</td>
+        <td scope="col">{{fc.UploadDate}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+</div>
+
+<!---------Modal for Calling Status--------->
+<div class="modal" tabindex="-1" role="dialog" id="ModalCallingStatus"  [ngStyle]="{'display':CallingStatusPopup}">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="col-md-10 text-center">
+					<h4>Update Telecalling Status for <font color="green">{{TelecallingStatus.LeadName}}, {{TelecallingStatus.Location}}</font></h4>
+				</div>
+				<div class="col-md-2"><button type="button" class="btn-close" (click)="CloseUpdateTelecallingStatusPopup()"></button></div>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<ul class="nav nav-tabs" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link active" data-bs-toggle="tab" href="#EditStatusTab">Edit Status</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-bs-toggle="tab" href="#EditLeadTab">Edit Lead</a>
+							</li>
+						</ul>
+
+						<!-- Tab panes -->
+						<div class="tab-content">
+							<div id="EditStatusTab" class="container tab-pane active"><br>
+								
+								<div class="row mb-3">
+									<label for="exampleInputLocation" class="col-sm-2 col-form-label">Calling Status</label>
+									<div class="col-sm-10">
+										<select class="form-control form-select input-control-color" name="CallingStatus" [(ngModel)]="TelecallingStatus.CallingStatus" [ngClass]="ValidateFieldStatus == 0 && TelecallingStatus.CallingStatus == '' ? 'input-control-border' : 'none' ">
+											<option value="">Select</option>
+											<option value="1">Interested</option>
+											<option value="2">Follow Up</option>
+											<option value="3">Not Contactable</option>
+											<option value="4">Not Interested</option>
+											<option value="5">Rejected</option>
+											<option value="6">Other States</option>
+											<option value="7">Overlapping Locations</option>
+											<option value="10">Overlapping Potential Lead</option>
+											<option value="8">Pending</option>
+										</select>
+									</div>
+								</div> 
+								<div class="row mb-3">
+									<label for="exampleInputLocation" class="col-sm-2 col-form-label">Allocate</label>
+									<div class="col-sm-10">
+										<select class="form-control form-select input-control-color" name="CallingStatus" [(ngModel)]="TelecallingStatus.MappedEmpID">
+											<option value="">Select</option>
+											<option *ngFor="let emp of EmployeeList" value="{{emp.RMID}}">{{emp.RMName}}</option>
+										</select>
+									</div>
+								</div> 
+								<div class="row mb-3" [hidden]="TelecallingStatus.CallingStatus != 2">
+									<label for="exampleInputLocation" class="col-sm-2 col-form-label">Follow Up Date</label>
+									<div class="col-sm-10">
+										<input type="date" class="form-control input-control-color" name="CallingStatus" [(ngModel)]="TelecallingStatus.FollowUpDate" [ngClass]="ValidateFieldStatus == 0 && TelecallingStatus.CallingStatus == 2 && TelecallingStatus.FollowUpDate == '' ? 'input-control-border' : 'none' ">
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label for="exampleInputLocation" class="col-sm-2 col-form-label">Remarks</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control input-control-color" placeholder="Enter remarks" name="CallingStatus" [(ngModel)]="TelecallingStatus.Remarks">
+									</div>
+								</div> 
+
+								
+								<div class="p-2" style="background-color: AntiqueWhite;" *ngIf="TelecallingStatus.CallingStatus==5">
+									<div class="row">
+										<label for="exampleInputLocation" class="col-sm-2 col-form-label">Rejection Reason</label>
+										<div class="col-sm-10">
+											<select class="form-control form-select input-control-color" name="CallingStatus" [(ngModel)]="TelecallingStatus.RejectionReason" [ngClass]="ValidateFieldStatus == 0 && TelecallingStatus.RejectionReason == '' ? 'input-control-border' : 'none' ">
+												<option value="">Select</option>
+												<option value="1">Contact Issue</option>
+												<option value="2">Did not like our business policy</option>
+												<option value="3">Basic requirements not fit as HB</option>
+												<option value="4">Casually applied</option>
+												<option value="5">Other</option>
+											</select>
+										</div>
+									</div>
+									<div class="row">
+										<label for="exampleInputLocation" class="col-sm-2 col-form-label">Rejection Remarks</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control input-control-color" placeholder="Enter rejected remarks" name="CallingStatus" [(ngModel)]="TelecallingStatus.RejectionRemark">
+										</div>
+									</div>
+								</div>
+								
+								<div class="text-center pt-3">
+									<button type="button" class="btn btn-primary" (click)="SaveCalls()">Save Calling</button>
+								</div>
+							</div>
+							<div id="EditLeadTab" class="container tab-pane fade"><br>
+
+								<div class="row mb-3">
+									<label for="exampleInputLocation" class="col-sm-2 col-form-label">Shop Name</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control input-control-color" placeholder="Enter Shop Name" [(ngModel)]="RetailerLead.ShopName">
+									</div>
+								</div> 
+								<div class="row mb-3">
+									<label for="exampleInputLocation" class="col-sm-2 col-form-label">Shop Address</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control input-control-color" placeholder="Enter Shop Address" [(ngModel)]="RetailerLead.ShopAddress">
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label for="exampleInputLocation" class="col-sm-2 col-form-label">Location</label>
+									<div class="col-sm-10">
+										<div class="input-group">
+											<input type="text" class="form-control input-control-color" placeholder="Enter Location"  aria-describedby="basic-addon2" [(ngModel)]="RetailerLead.Location">
+										</div>
+									</div>
+								</div> 
+								<div class="row mb-3">
+									<label for="exampleInputLocation" class="col-sm-2 col-form-label">Pin Code</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control input-control-color" placeholder="Enter Pincode" [(ngModel)]="RetailerLead.Pin_Code">
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label for="exampleInputLocation" class="col-sm-2 col-form-label">Proprietor Name</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control input-control-color" placeholder="Enter Proprietor Name" [(ngModel)]="RetailerLead.ProprietorName">
+									</div>
+								</div>							
+
+								<div class="row mb-3">
+									<label for="exampleInputLocation" class="col-sm-2 col-form-label">Email</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control input-control-color" placeholder="Enter Email" [(ngModel)]="RetailerLead.Email">
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label for="exampleInputLocation" class="col-sm-2 col-form-label">Contact Number 1</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control input-control-color" placeholder="Enter Contact Number 1" [(ngModel)]="RetailerLead.ContactNumber1">
+									</div>
+								</div> 
+								<div class="row mb-3">
+									<label for="exampleInputLocation" class="col-sm-2 col-form-label">Contact Number 2</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control input-control-color" placeholder="Enter Contact Number 2" [(ngModel)]="RetailerLead.ContactNumber2">
+									</div>
+								</div> 
+								<!-- <div class="row mb-3">
+									<label for="exampleInputLocation" class="col-sm-2 col-form-label">Reachable By Sales Team</label>
+									<div class="col-sm-10">
+										<div class="form-check form-switch">
+											<input class="form-control form-check-input input-control-color" style="transform: scale(1.3); margin-right: 1rem;" type="checkbox" role="switch" id="VisitedBefore" ng-true-value="1" ng-false-value="0" name="ReachableBySales" [(ngModel)]="RetailerLead.ReachableBySalesTeam">
+											<label class="form-check-label input-control-color" for="VisitedBefore" style="margin-right: 1rem;">
+											{{RetailerLead.ReachableBySalesTeam == 'N' ? false : true}}</label>
+										</div>
+									</div>
+								</div>  -->
+
+								<div class="text-center">
+									<button type="button" class="btn btn-primary" (click)="UpdateRetailerLead()">Update</button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

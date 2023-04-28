@@ -1,0 +1,75 @@
+<!-- <p>rm-visit-schedule-config works!</p> -->
+
+<div class="page-header">
+    <h3 class="pageheader-title pageheader-color">Visit Schedule for <strong><span style='color: green;'>{{RMVisitScheduleConfig.ROName}}</span> on <span style='color: green;'>{{RMVisitScheduleConfig.ScheduledVisitDateFormatted}}</span> </strong></h3>    
+</div>
+<hr>
+
+<form (ngSubmit)="RMVisitScheduleConfigForm.valid" #RMVisitScheduleConfigForm="ngForm">
+    <div class="row align-items-center g-3">
+    	<div class="col-auto">
+    		<div class="input-group">
+    			<div class="input-group-text">Location<span class="text-red">*</span></div>
+    			<input type="text" class="form-control input-control-color" id="inlineFormInputLocation" placeholder="Enter Location" #Location="ngModel" [ngClass]="{ 'is-invalid': RMVisitScheduleConfigForm.submitted && Location.errors }" name="Location" [(ngModel)]="RMVisitScheduleConfig.Location" required>    			
+    			<!-- <div *ngIf="RMVisitScheduleConfigForm.submitted && (Location.errors || Location.touched)">
+    				<div class="form-text" *ngIf="Location.errors?.required">Location is required</div>  
+    			</div> --> 
+    		</div>
+    	</div>
+    	<div class="col-auto">
+    		<div class="input-group">
+    			<div class="input-group-text">Store Name</div>
+    			<input type="text" class="form-control input-control-color" id="inlineFormInputStoreName"placeholder="Enter Store Name" name="StoreName" [(ngModel)]="RMVisitScheduleConfig.StoreName">
+    		</div>
+    	</div>
+    	<div class="col-auto">
+    		<div class="input-group">
+    			<div class="input-group-text">Contact Person</div>
+    			<input type="text" class="form-control input-control-color" id="inlineFormInputContactPerson"placeholder="Enter Contact Person" name="ContactPerson" [(ngModel)]="RMVisitScheduleConfig.ContactPerson">
+    		</div>
+    	</div>
+        <div class="col-auto">
+            <div class="input-group">
+    			<div class="input-group-text">Contact No.</div>
+    			<input type="text" class="form-control input-control-color" id="inlineFormInputContactNo"placeholder="Enter Contact No" name="ContactNo" [(ngModel)]="RMVisitScheduleConfig.ContactNo">
+    		</div>
+        </div>
+        <div class="col-auto">
+            <div class="input-group">
+    			<div class="input-group-text">Description</div>
+    			<input type="text" class="form-control input-control-color" id="inlineFormInputDescription"placeholder="Enter Description" name="Description" [(ngModel)]="RMVisitScheduleConfig.Description">
+    		</div>
+        </div>      
+        <div class="col-auto">
+        	<!-- <label for="inputAddNew"></label> -->
+            <button type="submit" class="btn btn-info" id="inputAdd" (click)="AddRMVisitScheduleConfigForm(RMVisitScheduleConfig)">Add</button>
+        </div>
+    </div>
+</form>
+<br>
+<div class="table-responsive">
+<table class="table table-striped">
+    <thead>
+      <tr>        
+        <th scope="col">Location</th>
+        <th scope="col">Store Name</th>
+        <th scope="col">Contact Person</th>
+        <th scope="col">Contact No</th>            
+        <th scope="col" colspan="2">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let config of RMVisitScheduleConfigList;">
+        <td scope="col">{{config.Location}}</td>
+        <td scope="col">{{config.MedicalStoreName}}</td>
+        <td scope="col">{{config.ContactPerson}}</td>
+        <td scope="col">{{config.ContactNo}}</td>
+        <td scope="col">{{config.Description}}</td>
+        <td scope="col"><i class="fa fa-trash text-blue icon-size" title="Remove" [hidden]="(RMVisitScheduleConfig.CreateDate  | parseJsonDate) == CurDate" (click)="Delete(config.ScheduleID)"></i></td> 
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+

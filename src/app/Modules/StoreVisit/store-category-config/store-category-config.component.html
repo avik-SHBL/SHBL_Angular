@@ -1,0 +1,49 @@
+<!-- <p>store-category-config works!</p> -->
+
+<div class="page-header">
+    <h3 class="pageheader-title pageheader-color">Sales Configuration</h3>    
+</div>
+<hr>
+
+<div class="table-responsive">
+<table class="table table-striped">
+    <thead>
+      <tr>
+      	<th scope="col" class="text-center">#</th>
+        <th scope="col" class="text-center">Store Category</th>
+        <th scope="col" class="text-center">Sales Volume From</th>
+        <th scope="col" class="text-center">Sales Volume Upto</th>
+        <th scope="col" class="text-center">Allow Visit</th>
+        <th scope="col" class="text-center">Priority</th>
+        <th scope="col" class="text-center">No. of Visits / Month</th>
+        <th scope="col" class="text-center">Days Gap</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let sales of SalesConfigList">
+      	<td scope="col" class="text-center">{{sales.StoreCatecoryID}}</td>
+        <td scope="col" class="text-center" style="color:brown;">{{sales.StoreCategory}}</td>
+        <td scope="col">
+        <input type="text"    name="SalesVolumeFrom" style="border:none; color:green;text-align:right" [(ngModel)]="sales.SalesVolumeFrom" (change)="onChange_SalesVolume(sales.StoreCatecoryID)">
+    </td>
+        <td scope="col" >
+        <input type="text"   name="sales.SalesVolumeUpto" style="border:none; color:green;text-align:right" [(ngModel)]="sales.SalesVolumeUpto" (change)="onChange_SalesVolume(sales.StoreCatecoryID)">
+    </td>
+    <td scope="col" class="text-center">
+      <div class="form-check form-switch form-switch-md">
+        <input class="form-control form-check-input input-control-color" type="checkbox" role="switch" id="AllowVisit" name="AllowVisit" [(ngModel)]="sales.AllowVisit" (change)="onChange_SalesVolume(sales.StoreCatecoryID)">
+      </div>
+    </td>
+    <td scope="col" class="text-center">
+        <input type="text" class="text-center" name="PriorityOrder" style="border:none; color:brown;" [(ngModel)]="sales.PriorityOrder" (change)="onChange_SalesVolume(sales.StoreCatecoryID)">
+    </td>
+        <td scope="col" class="text-center">
+        <input type="text" class="text-center" name="NoOfVisitsPerMonth" style="border:none; color:green;" [(ngModel)]="sales.NoOfVisitsPerMonth" (change)="onChange_SalesVolume(sales.StoreCatecoryID)">
+    </td>
+        <td scope="col" class="text-center">
+        <input type="text" class="text-center" name="DaysGap" style="border:none; color:green;" [(ngModel)]="sales.DaysGap" (change)="onChange_SalesVolume(sales.StoreCatecoryID)">
+    </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

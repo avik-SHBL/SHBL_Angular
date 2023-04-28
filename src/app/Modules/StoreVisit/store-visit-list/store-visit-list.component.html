@@ -1,0 +1,93 @@
+<!-- <p>storevisit-list works!</p> -->
+
+<div class="page-header">
+    <h3 class="pageheader-title pageheader-color">Store Visit List</h3>    
+</div>
+<hr>
+
+<form>
+    <div class="row align-items-center g-3">
+    	<div class="col-auto">
+    		<div class="input-group">
+    			<div class="input-group-text">Start Date</div>
+    			<input type="date" class="form-control" id="inlineFormInputStartDate" name="StartDate" [(ngModel)]="StartDate" (change)="PopulateStoreVisitGrid()">
+    		</div>
+    	</div>
+        <div class="col-auto">
+            <div class="input-group">
+    			<div class="input-group-text">End Date</div>
+    			<input type="date" class="form-control" id="inlineFormInputEndDate" name="EndDate" [(ngModel)]="EndDate" (change)="PopulateStoreVisitGrid()">
+    		</div>
+        </div>
+        <div class="col-auto">
+            <div class="input-group">
+    			<div class="input-group-text"><i class="fa fa-search"></i></div>
+    			<input type="text" class="form-control" id="inlineFormInputSearch" name="Keyword" [(ngModel)]="Keyword" (keyup)="PopulateStoreVisitGrid()">
+    		</div>
+        </div>        
+        <div class="col-auto">
+        	<!-- <label for="inputAddNew"></label> -->
+            <a href="Home/StoreVisit" type="button" class="btn btn-info" id="inputAddNew">Add New +</a>
+        </div>
+    </div>
+</form>
+
+<div class="table-responsive">
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Store Pic</th>
+        <th scope="col">Visit Date</th>
+        <th scope="col">Location</th>
+        <th scope="col">Store Name</th>
+        <th scope="col">Contact Person</th>
+        <th scope="col">Contact No</th>                            
+        <th scope="col">Short Remark</th>
+        <th scope="col">Feedback</th>
+        <th scope="col" colspan="2">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let store of StoreVisitList | paginate: { itemsPerPage: 30, currentPage: page }">
+        <td scope="col">
+            <div class="action-buttons text-center">
+                  <a class="blue" (click)="GetPic(store.StoreVisitPhoto, store.StoreName)" *ngIf="store.StoreVisitPhoto != '' && store.StoreVisitPhoto != null  && store.StoreVisitPhoto != undefined && store.StoreVisitPhoto != 'Skipped'">
+                      <i class="fa fa-picture-o icon-size"></i>
+                  </a>
+                  <span  *ngIf="store.StoreVisitPhoto =='Skipped'">Skipped</span>
+              </div>
+        </td>
+        <td scope="col">{{store.VisitDate | parseJsonDate}}</td>
+        <td scope="col">{{store.Location}}</td>
+        <td scope="col">{{store.StoreName}}</td>
+        <td scope="col">{{store.ContactPerson}}</td>
+        <td scope="col">{{store.ContactNo}}</td>
+        <td scope="col">{{store.ShortRemark}}</td>
+        <td scope="col">{{store.Feedback}}</td>
+        <td scope="col"><a href="Home/StoreVisit/{{store.StoreVisitID}}"><i class="fa fa-search text-blue icon-size" title="View"></i></a></td> 
+        <td scope="col"><i class="fa fa-trash text-blue icon-size cursorhand" title="Delete" (click)="Delete(store.StoreVisitID)" [hidden]="(store.CreateDate  | parseJsonDate) != CurDate"></i></td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+</div>
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':myPopup}" >
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-md-10 text-center"><h4>StoreName : {{StoreName}}</h4></div>
+                <div class="col-md-2"><button type="button" class="btn-close"
+                    (click)="closePopup()"></button></div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <img [src]="ShowImgURL" class="img-responsive img-thumbnail" />
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

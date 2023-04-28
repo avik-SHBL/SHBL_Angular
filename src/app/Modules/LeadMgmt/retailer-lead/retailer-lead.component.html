@@ -1,0 +1,99 @@
+
+<div class="page-header">
+  <div class="row col-sm-12">
+    <div class="col-sm-4">
+    <h3 class="pageheader-title pageheader-color">Retailer Lead List</h3>
+  </div>
+  <div class="col-sm-8">
+    <h6 class="text-gray" style="float:right;">Click the following link to get a <a href="assets/sample/RSLead.xlsx" class="text-primary">sample file</a></h6><!---->
+  </div>
+  </div>
+</div>
+<hr>
+<form>
+  <div class="row align-items-center g-3">
+    <div class="col-auto">
+      <div class="input-group" style="width:210px;">
+       <div class="input-group-text">State<span class="text-red">*</span></div>
+       <select class="form-control form-select input-control-color" id="inlineFormInputState" name="State" [ngClass]="ValidateFieldStatus == 0 && StateID == '' ? 'input-control-border' : 'none' " [(ngModel)]="StateID" (change)="StateOnChange()">
+        <option value="">Select</option>
+        <option *ngFor="let st of StateList" value="{{st.StateID}}">{{st.StateName}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-auto">
+      <div class="input-group" style="width:210px;">
+       <div class="input-group-text">District<span class="text-red">*</span></div>
+       <select class="form-control form-select input-control-color" id="inlineFormInputState" name="District" [ngClass]="ValidateFieldStatus == 0 && DistrictID == '' ? 'input-control-border' : 'none' " [(ngModel)]="DistrictID">
+        <option value="">Select</option>
+        <option *ngFor="let dt of DistrictList" value="{{dt.DistrictID}}">{{dt.District}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="input-group" style="width:285px;">
+     <div class="input-group-text">Source Media<span class="text-red">*</span></div>
+     <select class="form-control form-select input-control-color" id="inlineFormInputSourceMedia" name="SourceMedia" [(ngModel)]="SourceMedia">
+      <option value="">Select</option>
+      <option value="Digital">Digital</option>
+      <option value="Website">Website</option>
+      <option value="Newspaper">Newspaper</option>
+      <option value="Promotion Activity">Promotion Activity</option>
+      <option value="HB Reference">HB Reference</option>
+      <option value="Employee Reference">Employee Reference</option>
+      <option value="CRM">CRM</option>
+      <option value="HB Store Banner">HB Store Banner</option>
+      <option value="Customer SMS">Customer SMS</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+</div>
+<div class="col-auto">
+  <div class="input-group" style="width:240px;">
+    <div class="input-group-text">Media Details</div>
+    <input type="text" class="form-control input-control-color" id="inlineFormInputMediaDetails" placeholder="Enter media details" name="MediaDetails" [(ngModel)]="MediaDetails">
+  </div>
+</div>
+<div class="col-auto">
+  <div class="input-group" style="width:240px;">
+    <input type="file" class="form-control input-control-color" id="inlineFormInputFilePath" (change)="UploadPicture($event)">
+  </div>
+</div>
+<div class="col-auto">
+  <div class="input-group" style="width:240px;">
+    <button class="btn btn-success" *ngIf="showbtnImport" (click)="ImportLead()">Import</button>
+    <div class="alert alert-info mx-4" role="alert" *ngIf="WaitAlert">
+      <strong>Please wait!</strong>
+    </div>
+  </div>
+</div>
+</div>
+</form>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">State</th>
+          <th scope="col">Source</th>
+          <th scope="col">Media Details</th>
+          <th scope="col">File Name</th>
+          <th scope="col">Upload Date</th>
+          <th scope="col">Uploaded By</th>
+          <th scope="col" *ngIf="AllowRemove == 1">Remove (Unassigned)</th>
+        </tr>
+      </thead>
+      <tbody>
+       <tr *ngFor="let lead of LeadList">
+          <td scope="col">{{lead.StateName}}</td>
+          <td scope="col">{{lead.SourceMedia}}</td>
+          <td scope="col">{{lead.MediaDetails}}</td>
+          <td scope="col"><a href="{{lead.FilePath}}">{{lead.FileName}}</a></td>
+          <td scope="col">{{lead.UploadDate}}</td>
+          <td scope="col">{{lead.FirstName}}</td>
+          <td scope="col" *ngIf="AllowRemove == 1"><i class="fa fa-trash text-gray icon-size cursorhand" (click)="DeleteLead(lead.LeadImportID)"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>

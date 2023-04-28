@@ -1,0 +1,190 @@
+<ng-container *ngIf="displaycontent">
+   
+    <!-- <ng-container *ngIf="!recordExist"> -->
+        <div class="container px-1">
+            <div class="page-header">
+                <h3 class="pageheader-title pageheader-color">Daily Hygeine Update</h3>
+            </div>
+            <hr>
+
+            <ng-container *ngIf="recordExist">
+                <div class="successbox">
+                    <i class="fa fa-check-circle" style="font-size:48px;color:#128d54"></i>
+                    <h4 class="successText">You have alredy submited...</h4>
+                </div>
+                
+            </ng-container>
+
+            <ng-container *ngIf="!recordExist">
+                <form [formGroup]="form" (ngSubmit)="submit()">
+                    <div class="px-3">
+                        <h6 [ngStyle]="{'color': !form.valid ? '#cd6868' : '#128d54'}">* step 1: Please check all hygiene
+                            parameters.</h6>
+                        <h6 [ngStyle]="{'color': !imageSrc ? '#cd6868' : '#128d54'}">* step 2: click your selfie image.</h6>
+                        <h6 [ngStyle]="{'color': !finalstate ? '#cd6868' : '#128d54'}">* step 3: Submit details.</h6>
+                    </div>
+                    <hr>
+                    <ng-container *ngIf="isloading">
+                        <div class="loadardiv">
+                            <button class="btn btn-primary" type="button" disabled>
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                Processing...
+                            </button>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="!isloading">
+                        <ng-container *ngIf="!form.valid">
+                            <div class="card mb-2">
+                                <div class="card-header"><i class="fa fa-hand-o-right me-2" aria-hidden="true"></i>I have Brushed my
+                                    teeth today morning.</div>
+                                <div class="card-body py-1">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" value=1 formControlName="Teeth_Brushed">
+                                        <label class="form-check-label">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" value=0 formControlName="Teeth_Brushed">
+                                        <label class="form-check-label">No</label>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <div class="card mb-2">
+                                <div class="card-header"><i class="fa fa-hand-o-right me-2" aria-hidden="true"></i>I have
+                                    Shaved/Trimmed my beard today morning.</div>
+                                <div class="card-body py-1">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" value=1 formControlName="Beard_ShavedTrimmed">
+                                        <label class="form-check-label">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" value=0 formControlName="Beard_ShavedTrimmed">
+                                        <label class="form-check-label">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-2">
+                                <div class="card-header"><i class="fa fa-hand-o-right me-2" aria-hidden="true"></i>I have Taken a
+                                    Bath today morning.</div>
+                                <div class="card-body py-1">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" value=1 formControlName="MorningBath_Taken">
+                                        <label class="form-check-label">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" value=0 formControlName="MorningBath_Taken">
+                                        <label class="form-check-label">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-2">
+                                <div class="card-header"><i class="fa fa-hand-o-right me-2" aria-hidden="true"></i>I have Combed my
+                                    hair today morning.</div>
+                                <div class="card-body py-1">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" value=1 formControlName="Hair_Combed">
+                                        <label class="form-check-label">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" value=0 formControlName="Hair_Combed">
+                                        <label class="form-check-label">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-2">
+                                <div class="card-header"><i class="fa fa-hand-o-right me-2" aria-hidden="true"></i>I have Clean
+                                    Nails today morning.</div>
+                                <div class="card-body py-1">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" value=1 formControlName="Nails_Cleaned">
+                                        <label class="form-check-label">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" value=0 formControlName="Nails_Cleaned">
+                                        <label class="form-check-label">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-2">
+                                <div class="card-header"><i class="fa fa-hand-o-right me-2" aria-hidden="true"></i>I have Applied
+                                    Deodorant today morning.</div>
+                                <div class="card-body py-1">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" value=1 formControlName="Deodorant_Applied">
+                                        <label class="form-check-label">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" value=0 formControlName="Deodorant_Applied">
+                                        <label class="form-check-label">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-2">
+                                <div class="card-header"><i class="fa fa-hand-o-right me-2" aria-hidden="true"></i>I am wearing a
+                                    Clean Dress today morning.</div>
+                                <div class="card-body py-1">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" value=1 formControlName="CleanDress_Worn">
+                                        <label class="form-check-label">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" value=0 formControlName="CleanDress_Worn">
+                                        <label class="form-check-label">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-2">
+                                <div class="card-header"><i class="fa fa-hand-o-right me-2" aria-hidden="true"></i>I am wearing a
+                                    Clean Pair of Shoes today morning.</div>
+                                <div class="card-body py-1">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" value=1 formControlName="CleanShoes_worn">
+                                        <label class="form-check-label">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" value=0 formControlName="CleanShoes_worn">
+                                        <label class="form-check-label">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+            
+                        <ng-container *ngIf="form.valid">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <ng-container *ngIf="!imgLoading">
+                                        <div class="imageCont">
+                                            <img [src]="imageSrc" *ngIf="imageSrc">
+                                            <i class="fa fa-camera" aria-hidden="true" *ngIf="!imageSrc"></i>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="imgLoading">
+                                        <div class="spinerCont">
+                                            <div class="spinner-border" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <input id="file" type="file" accept="image/*" capture="camera" class="form-control"
+                                            (change)="onFileChange($event)">
+                                    </div>
+                                    <ng-container *ngIf="imageSrc">
+                                        <div class="mt-4">
+                                            <button class="btn btn-primary mt-3 py-2 px-4" type="submit" [disabled]="!form.valid">Submit</button>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </form>
+            </ng-container>
+        
+        </div>
+    <!-- </ng-container> -->
+    
+
+</ng-container>

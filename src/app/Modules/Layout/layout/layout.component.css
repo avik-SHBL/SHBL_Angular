@@ -1,0 +1,37 @@
+.viewNote {
+    background-color: #e9ecef;
+    overflow-x: hidden;
+    padding: 6px 4px;
+    margin-bottom: 10px;
+    margin-top: -12px;
+}
+
+#div3 {
+    font-weight: 500;
+    color: red;
+    position: relative;
+    animation: mymove 14s infinite;
+    animation-timing-function: ease-in;
+}
+
+@keyframes mymove {
+    from {
+        left: 0px;
+    }
+
+    to {
+        left: 480px;
+    }
+}
+
+@media(min-width:768px) {
+    @keyframes mymove {
+        from {
+            left: 0px;
+        }
+    
+        to {
+            left: 980px;
+        }
+    }
+}

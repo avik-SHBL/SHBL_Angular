@@ -1,0 +1,100 @@
+<ng-container *ngIf="ExRmList">
+  <div class="page-header">
+    <h3 class="pageheader-title pageheader-color">Existing RM Sales Target List</h3>    
+</div>
+<hr>
+
+<form>
+    <div class="row align-items-center g-3">
+        <div class="col-auto col-sm-5 col-12">
+            <div class="input-group">
+    			<div class="input-group-text"><i class="fa fa-search"></i></div>
+    			<input type="text" class="form-control" name="Search" [(ngModel)]="Search"  (keyup)="PopulateGrid()">     
+    		</div>
+        </div>        
+        <div class="col-auto">
+            <a [routerLink]="['/Home/ExistingRmSalesTarget']"  type="button" class="btn btn-info" id="inputAddNew">Add New +</a>
+        </div>
+    </div>
+</form>
+
+<ng-container *ngIf="notFound">
+  <div class="notfoundbox mt-3">
+      <i class="fa fa-frown-o mb-3" style="font-size:48px; color:#4775d1"></i>
+      <h5 class="notfoundText">No Matching record Found...</h5>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!notFound">
+  <div class="mt-3">
+    <ng-container *ngFor="let Target of ExistingRMSalesTargetList">
+      <div class="targetDisplay">
+        <div>
+          <p class="mb-2" style="color: #4775d1;"><span class="fw-bold">Target For : <span class="text-uppercase">{{Target.IsDefault==0?Target.RMName:'Default'}}</span></span></p>
+          <p class="mb-2">With Effect From : <span class="fw-bold">{{Target.WithEffectFrom}}</span></p>
+          <div class="row">
+            <p class="col-auto mb-2 alowwVisit mx-2"> Category Wise Visit :
+              <span *ngIf="Target.AllowCategoryWiseVisit == 1"> <i class="fa fa-check-circle-o"  style="color:green"></i></span> 
+              <span *ngIf="Target.AllowCategoryWiseVisit == 0"> <i class="fa fa-ban" style="color:red"></i></span>
+            </p>
+            <p class="col-auto mb-2 alowwVisit mx-2"> Potential Retailer Visit : 
+              <span *ngIf="Target.AllowPotentialRetailerVisit == 1"> <i class="fa fa-check-circle-o"  style="color:green"></i></span> 
+              <span *ngIf="Target.AllowPotentialRetailerVisit == 0"> <i class="fa fa-ban" style="color:red"></i></span>
+            </p>
+            <p class="col-auto mb-2 alowwVisit mx-2"> 3Month Inactive Visit : 
+              <span *ngIf="Target.Allow3MonthInactiveVisit == 1"> <i class="fa fa-check-circle-o"  style="color:green"></i></span> 
+              <span *ngIf="Target.Allow3MonthInactiveVisit == 0"> <i class="fa fa-ban" style="color:red"></i></span>
+            </p>
+            <p class="col-auto mb-2 alowwVisit mx-2"> Lost Sale Visit : 
+              <span *ngIf="Target.AllowLostSale == 1"> <i class="fa fa-check-circle-o"  style="color:green"></i></span> 
+              <span *ngIf="Target.AllowLostSale == 0"> <i class="fa fa-ban" style="color:red"></i></span>
+            </p> 
+          </div>
+        </div>
+        <hr class="my-2">
+        <div class="cards">
+          <div class="stcard">
+            <p class="mb-2">Visit Type : <span class="fw-bold">{{Target.VisitType}}</span></p>
+          </div>
+          <div class="stcard">
+            <p class="mb-2">Days Of Work : <span class="fw-bold">{{Target.DaysOfWork}}</span></p>
+          </div>
+          <div class="stcard">
+            <p class="mb-2">Daily Visit : <span class="fw-bold">{{Target.DailyVisit}}</span></p>
+          </div>
+          <div class="stcard">
+            <p class="mb-2">Monthly Visit : <span class="fw-bold">{{Target.MonthlyVisit}}</span></p>
+          </div>
+          <div class="stcard">
+            <p class="mb-2">Monthly New Visit : <span class="fw-bold">{{Target.MonthlyNewVisitCount}}</span></p>
+          </div>
+          <div class="stcard">
+            <p class="mb-2">Monthly Existing Visit : <span class="fw-bold">{{Target.MonthlyExistingVisitCount}}</span></p>
+          </div>
+          <div class="stcard">
+            <p class="mb-2">New Visit % : <span class="fw-bold">{{Target.NewVisitPercentage}}</span></p>
+          </div>
+          <div class="stcard">
+            <p class="mb-2">Existing Visit % : <span class="fw-bold">{{Target.ExistingVisitPercentage}}</span></p>
+          </div>
+          <div class="stcard">
+            <p class="mb-2">Monthly OnBoard : <span class="fw-bold">{{Target.MonthlyOnBoard}}</span></p>
+          </div>
+          <div class="stcard">
+            <p class="mb-2">Inactive To Active : <span class="fw-bold">{{Target.InactiveToActiveCount}}</span></p>
+          </div>
+          <div class="stcard">
+            <p class="mb-2">Expected Monthly Sale : <span class="fw-bold">{{Target.ExpectedMonthlySale | currency:'INR'}}</span></p>
+          </div>
+        </div>
+        <hr class="mt-1 mb-2">
+        <div class="d-flex justify-content-between">
+          <ng-container *ngIf="Target.AllowEdit == 1"></ng-container>
+          <button class="btn btn-edit" [ngStyle]="{'color':(Target.AllowEdit === 0) ? 'gray' : '' }" (click)="setEdit(Target.SalesTargetID)" [disabled]="Target.AllowEdit === 0"><i class="fa fa-edit me-2"></i>Edit</button>
+          <button class="btn btn-del" [ngStyle]="{'color':(Target.AllowEdit === 0) ? 'gray' : '' }" (click)="Delete(Target.SalesTargetID)" [disabled]="Target.AllowEdit === 0"><i class="fa fa-trash me-2"></i>Delete</button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>
+</ng-container>

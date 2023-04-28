@@ -1,0 +1,91 @@
+<!-- <p>login works!</p> -->
+
+<main class="d-flex w-100" style="background-image: url('assets/img/loginbg.jpg');
+  background-repeat: repeat;">
+  <div class="container d-flex flex-column">
+    <div class="row vh-100">
+      <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+        <div class="d-table-cell align-middle">
+
+          <div class="text-center mt-4" style="opacity: 0.9; background-color: #ffffff; border: 1px solid rgb(216, 216, 216)">
+            <!-- <h1 class="h2">Welcome back</h1> -->
+            <p class="lead">
+			  <b><font color='#3991AB' style="text-shadow: 1px 1px #FFFFFF"> Retailershakti Marketing Management</font></b><br/>
+			  <font color='#125B71' style="text-shadow: 1px 1px #FFFFFF"> Sign in to your account to continue</font>
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <div class="m-sm-4">
+                <div class="text-center">
+                  <img src="assets/img/retailer_shakti_logo_3.png" class="img-fluid" width="200" height="200" />
+                </div>
+                <form (ngSubmit)="AuthenticationForm.valid" #AuthenticationForm="ngForm" novalidate="">
+                  <div class="mb-3 pt-2">
+                    <label class="form-label">Username</label>
+                    <input class="form-control form-control-lg" type="text" name="LoginID" placeholder="Enter your username" #LoginID="ngModel" [ngClass]="{ 'is-invalid': AuthenticationForm.submitted && LoginID.errors }" [(ngModel)]="Authenticate.LoginID" required />
+                    <div *ngIf="AuthenticationForm.submitted && (LoginID.errors || LoginID.touched)">
+                      <div class="form-text" *ngIf="LoginID.errors?.required">Username is required</div>  
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input class="form-control form-control-lg" type="password" name="Password" placeholder="Enter your password" #Password="ngModel" [ngClass]="{ 'is-invalid': AuthenticationForm.submitted && Password.errors }" [(ngModel)]="Authenticate.Password" (keyup)="handleKeyUp($event)" required />
+                    <div *ngIf="AuthenticationForm.submitted && (Password.errors || Password.touched)">
+                      <div class="form-text" *ngIf="Password.errors?.required">Password is required</div>  
+                    </div>
+                    <small>
+                      <a href="#" data-bs-toggle="modal" data-bs-target="#ModalForgotPassword">Forgot password?</a>
+                    </small>
+                  </div>
+                  <div>
+                    <label class="form-check">
+                      <input class="form-check-input" type="checkbox" value="remember-me" name="remember-me"[(ngModel)]="Authenticate.RememberMe" >
+                      <span class="form-check-label">
+                        Remember me next time
+                      </span>
+                    </label>
+                  </div>
+                  <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-lg btn-primary" (click)="Login(Authenticate)">Sign in</button>
+                  </div>
+                  <div class="text-center mt-3 text-danger text-bold" *ngIf="InvalidAuthMsg">
+                    {{InvalidAuthMsg}}
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Modal for Forgot Password -->
+
+<div class="modal fade" id="ModalForgotPassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><strong>Forgot password?</strong></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- <h5 class="text-success"><strong>Welcome to Retailer Shakti</strong></h5> -->
+        <p><strong>Type your username in the textbox below to receive password on your registered e-mail address:</strong></p>
+        <div class="mb-3 pt-2">
+          <label class="form-label">Username</label>
+          <input class="form-control form-control-lg" type="text" #Username name="Username" placeholder="Enter your username" />
+        </div>
+          <div class="form-text" *ngIf="InvalidUsernameMsg">Username is required</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="SendMail(Username.value)">Send Mail</button>
+      </div>
+    </div>
+  </div>
+</div>
+  

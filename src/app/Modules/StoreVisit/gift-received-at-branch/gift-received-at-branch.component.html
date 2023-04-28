@@ -1,0 +1,89 @@
+<!-- <p>gift-received-at-branch works!</p> -->
+
+<div class="page-header">
+    <h3 class="pageheader-title pageheader-color">Gift Received at Branch</h3>    
+</div>
+<hr>
+
+<form>
+    <div class="row align-items-center g-3">
+    	<div class="col-auto">
+    		<div class="input-group">
+    			<div class="input-group-text">Start Date</div>
+    			<input type="date" class="form-control" id="inlineFormInputStartDate" name="StartDate" [(ngModel)]="StartDate" (change)="PopulateGrid()">
+    		</div>
+    	</div>
+        <div class="col-auto">
+            <div class="input-group">
+    			<div class="input-group-text">End Date</div>
+    			<input type="date" class="form-control" id="inlineFormInputEndDate" name="EndDate" [(ngModel)]="EndDate" (change)="PopulateGrid()">
+    		</div>
+        </div>     
+        <div class="col-auto">
+        	<label for="inputAddNew"></label>
+            <a type="button" class="btn btn-primary" id="inputAddNewStock" (click)="openGiftReceivedAtBranchEntryPopup()">Add New Entry</a>
+        </div>
+        <div class="col-auto">
+            <label for="inputAddNew"></label>
+            <a type="button" class="btn btn-info" id="inputViewCurStock" (click)="ViewCurStock()">View Current Stock</a>
+        </div>
+    </div>
+</form>
+
+<div class="table-responsive">
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Receive Date</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let giftbranch of GiftReceivedByBranchList | paginate: { itemsPerPage: 20, currentPage: page }">
+        <td scope="col">{{giftbranch.ReceiveDate | parseJsonDate}}</td>
+        <td scope="col">{{giftbranch.Quantity}}</td>
+        <td scope="col"><i class="fa fa-trash text-blue icon-size" title="Delete" (click)="Delete(giftbranch.ReceiptID)" [hidden]="(giftbranch.CreateDate  | parseJsonDate) != CurDate"></i></td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalGiftReceivedEntryForm" [ngStyle]="{'display':ModalGiftReceivedAtBranchEntry}">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="col-md-10 text-center"><h4>Gift Received at Branch - Entry</h4></div>
+            <div class="col-md-2"><button type="button" class="btn-close" (click)="closeGiftReceivedAtBranchEntryPopup()"></button></div>
+            </div>
+    <div class="modal-body">
+        <div class="col-sm-12">
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Receive Date</label>
+                <div class="col-sm-9">
+                    <input class="form-control input-control-color" type="date" [(ngModel)]="GiftReceivedAtBranch.ReceiveDate" [max]="getToday()" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Quantity</label>
+                <div class="col-sm-9">
+                    <input class="form-control input-control-color" type="number" [(ngModel)]="GiftReceivedAtBranch.Quantity" (keydown)="keyPressNumbers($event)" />
+                </div>
+            </div>
+        <div class="col-sm-12 text-center">
+            <button type="button" class="btn btn-info" (click)="Save()">Save</button>
+        </div>
+
+    </div>
+    <!-- <div class="modal-footer"> 
+        <div><span style="text-align:left">Modal Footer</span></div>
+        <div><button type="button" class="btn btn-danger">Close</button>
+        </div>
+    </div> -->
+    </div>
+</div>
+</div>
+</div>
+
+

@@ -1,0 +1,345 @@
+<!-- <p>sidebar works!</p> -->
+
+<nav id="sidebar" class="sidebar js-sidebar">
+    <a class="sidebar-brand bg-white">
+        <span class="align-middle">
+            <img src="assets/img/retailer_shakti_logo_3.png" class="img-fluid" width="250" height="250" />
+        </span>
+    </a>
+    <div class="sidebar-content js-simplebar">
+        <!-- <a class="sidebar-brand">
+            <span class="align-middle">
+                <img src="assets/img/retailer_shakti_logo_3.png" class="img-fluid" width="250" height="250" />
+            </span>
+        </a> -->
+
+        <ul class="sidebar-nav">
+            <!-- && (Rolename.indexOf('RetailerShaktiAccounts') == -1 && Rolename.indexOf('RetailerShaktiAcquisitionAdmin') == -1 && Rolename.indexOf('RetailerShaktiAcquisitionStaff') == -1) -->
+            <!-- <li class="sidebar-item mt-2" *ngIf="!isMobile "> -->
+            <li class="sidebar-item mt-2"> 
+                <a class="sidebar-link" id="Dashboard" routerLink="Dashboard" routerLinkActive="active" #dashboard="routerLinkActive"><i [ngClass]="dashboard.isActive ? 'align-middle fa fa-tachometer active' : 'align-middle fa fa-tachometer inactive' " aria-hidden="true"></i>Dashboard</a>
+            </li>
+            <!-- && (Rolename.indexOf('RetailerShaktiAccounts') == -1 && Rolename.indexOf('RetailerShaktiAcquisitionAdmin') == -1 && Rolename.indexOf('RetailerShaktiAcquisitionStaff') == -1) -->
+            <!-- <li class="sidebar-item mt-2" *ngIf="isMobile">
+                <a class="sidebar-link" id="RMWiseStoreVisitReport" routerLink="RMWiseStoreVisitReport" routerLinkActive="active" #rMWiseStoreVisitReport="routerLinkActive"><i [ngClass]="rMWiseStoreVisitReport.isActive ? 'align-middle fa fa-tachometer active' : 'align-middle fa fa-tachometer inactive' " aria-hidden="true"></i>Dashboard</a>
+            </li> -->
+
+            <li class="sidebar-item">
+                <span *ngIf="Rolename.indexOf('RetailerShaktiAcquisitionAdmin') >= 0 || Rolename.indexOf('RetailerShaktiAcquisitionStaff') >= 0">
+                    <a class="sidebar-link">
+                        <i class="align-middle fa fa-desktop"></i>
+                        <span class="align-middle">Lead Acquisition
+                            <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                    <ul class="submenu">      
+    
+                        <li *ngIf="Rolename.indexOf('RetailerShaktiAcquisitionAdmin') >= 0">
+                         <a class="sidebar-link" id="retailerLead" routerLink="RetailerLead" routerLinkActive="active" #retailerLead="routerLinkActive"><i [ngClass]="retailerLead.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Upload Retailer Lead</span>
+                        </a>
+                    </li>
+    
+                    <li *ngIf="Rolename.indexOf('RetailerShaktiAcquisitionAdmin') >= 0">
+                        <a class="sidebar-link" id="retailerLeadList" routerLink="RetailerLeadList" routerLinkActive="active" #retailerLeadList="routerLinkActive">
+                            <i [ngClass]="retailerLeadList.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Allocate Caller</span>
+                        </a>
+                    </li>
+    
+                    <li>
+                        <a class="sidebar-link" id="TelecallingLeadList" routerLink="TelecallingLeadList" routerLinkActive="active" #telecallingLeadList="routerLinkActive">
+                            <i [ngClass]="telecallingLeadList.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Fresh Calls</span>
+                        </a>
+                    </li>
+    
+                    <li>
+                        <a class="sidebar-link" id="TelecallingFollowUpList" routerLink="TelecallingFollowUpList" routerLinkActive="active" #telecallingFollowUpList="routerLinkActive">
+                            <i [ngClass]="telecallingFollowUpList.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Follow-Up Calls</span>
+                        </a>
+                    </li>
+    
+                    <li>
+                        <a class="sidebar-link" id="TelecallingLeadStatusList" routerLink="TelecallingLeadStatusList" routerLinkActive="active" #telecallingLeadStatusList="routerLinkActive">
+                            <i [ngClass]="telecallingLeadStatusList.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Called List</span>
+                        </a>
+                    </li>
+    
+                    <li>
+                        <a class="sidebar-link" id="TelecallingStatusReport" routerLink="TelecallingStatusReport" routerLinkActive="active" #telecallingStatusReport="routerLinkActive">
+                            <i [ngClass]="telecallingStatusReport.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Telecalling Status</span>
+                        </a>
+                    </li>
+    
+                    <li *ngIf="Rolename.indexOf('RetailerShaktiAcquisitionAdmin') >= 0">
+                        <a class="sidebar-link" id="communicationSetting" routerLink="CommunicationSettings" routerLinkActive="active" #communicationSetting="routerLinkActive">
+                            <i [ngClass]="communicationSetting.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Message Settings</span>
+                        </a>
+                    </li>
+    
+                    <li *ngIf="Rolename.indexOf('RetailerShaktiAcquisitionAdmin') >= 0">
+                        <a class="sidebar-link" id="communicationSettingList" routerLink="CommunicationSettingsList" routerLinkActive="active" #communicationSettingList="routerLinkActive">
+                            <i [ngClass]="communicationSettingList.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Message Settings List</span>
+                        </a>
+                    </li>
+    
+                </ul>
+            </span>
+        </li>
+
+
+            <!-- Rolename.indexOf('RetailerShaktiAccounts') == -1 && Rolename.indexOf('RetailerShaktiAcquisitionAdmin') == -1 && Rolename.indexOf('RetailerShaktiAcquisitionStaff') == -1 -->
+            <li class="sidebar-item"  >
+                <span *ngIf="Rolename.indexOf('RetailerShaktiStoreVisitAdmin') >=0 || Rolename.indexOf('RetailerShaktiStoreVisitRM') >=0">
+                <a class="sidebar-link">
+                    <i class="align-middle fa fa-shopping-cart"></i>
+                    <span class="align-middle">Store Visit
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                    </span>
+                </a>
+                <ul class="submenu">      
+                    <li>
+                        <a class="sidebar-link" id="RMWiseStoreVisitReport" routerLink="RMWiseStoreVisitReport" routerLinkActive="active" #rMWiseStoreVisitReport="routerLinkActive"><i [ngClass]="rMWiseStoreVisitReport.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Visit Report</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="sidebar-link" id="RetailerLeadsForVisit" routerLink="RetailerLeadsForVisit" routerLinkActive="active" #RetailerLeadsForVisit="routerLinkActive">
+                            <i [ngClass]="RetailerLeadsForVisit.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Leads to Visit</span>
+                        </a>
+                    </li>    
+
+                    <li>
+                        <a class="sidebar-link" id="ROVisitSchedule" routerLink="RMVisitCalendar" routerLinkActive="active" #roVisitSchedule="routerLinkActive">
+                            <i [ngClass]="roVisitSchedule.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Visit Schedule</span>
+                        </a>
+                    </li> 
+
+                    <li>
+                        <a class="sidebar-link" id="StoreVisitList" routerLink="StoreVisitList" routerLinkActive="active" #storeVisitList="routerLinkActive">
+                            <i [ngClass]="storeVisitList.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Visit List</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="sidebar-link" id="StoreVisitEntry" routerLink="StoreVisit" routerLinkActive="active" #storeVisitEntry="routerLinkActive">
+                            <i [ngClass]="storeVisitEntry.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Visit Entry</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="sidebar-link" id="ModeOfTransport" routerLink="ModeOfTransport" routerLinkActive="active" #ModeOfTransport="routerLinkActive">
+                            <i [ngClass]="ModeOfTransport.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Transport Today</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="sidebar-link" id="ModeOfTransportRegular" routerLink="ModeOfTransportRegular" routerLinkActive="active" #ModeOfTransportRegular="routerLinkActive" *ngIf="Rolename.indexOf('RetailerShaktiStoreVisitAdmin') >= 0">
+                            <i [ngClass]="ModeOfTransportRegular.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Transport Regular</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="sidebar-link" id="RoVisitRouteList" routerLink="RoVisitRouteList" routerLinkActive="active" #roVisitRouteList="routerLinkActive">
+                            <i [ngClass]="roVisitRouteList.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">RO Visit Route</span>
+                        </a>
+                    </li>                        
+
+                    <li>
+                        <a class="sidebar-link" id="KmCalculationReport" routerLink="KmCalculationReport" routerLinkActive="active" #kmCalculationReport="routerLinkActive">
+                            <i [ngClass]="kmCalculationReport.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Travelled KM</span>
+                        </a>
+                    </li>
+                    <li>
+                        <span *ngIf="Rolename.indexOf('RetailerShaktiStoreVisitAdmin') >=0">
+                        <a class="sidebar-link" id="StoreCategoryConfiguration" routerLink="StoreCategoryConfiguration" routerLinkActive="active" #storeCategoryConfiguration="routerLinkActive">
+                            <i [ngClass]="storeCategoryConfiguration.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Category Config</span>
+                        </a>
+                        </span>
+                    </li>
+                    
+
+                </ul></span>
+            </li>   
+
+            <li class="sidebar-item" ><span *ngIf="Rolename.indexOf('RetailerShaktiStoreVisitAdmin') >=0">
+                <a class="sidebar-link"><i class="align-middle fa fa-road"></i>
+                    <span class="align-middle">Sales Target <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+                </a>
+                <ul class="submenu">
+                    <li>
+                        <a class="sidebar-link" id="ConfigNewRMslaesTarget" routerLink="NewRmSalesTarget" routerLinkActive="active" #ConfigNewRMslaesTarget="routerLinkActive">
+                            <i [ngClass]="ConfigNewRMslaesTarget.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">New RM Target</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="sidebar-link" id="ConfigNewRMslaesTargetList" routerLink="NewRmSalesTargetList" routerLinkActive="active" #ConfigNewRMslaesTargetList="routerLinkActive">
+                            <i [ngClass]="ConfigNewRMslaesTargetList.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">New RM Target List</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="sidebar-link" id="ConfigExRMslaesTarget" routerLink="ExistingRmSalesTarget" routerLinkActive="active" #ConfigExRMslaesTarget="routerLinkActive">
+                            <i [ngClass]="ConfigExRMslaesTarget.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Sr. RM Target</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="sidebar-link" id="ConfigExRMslaesTargetList" routerLink="ExistingRmSalesTargetList" routerLinkActive="active" #ConfigExRMslaesTargetList="routerLinkActive">
+                            <i [ngClass]="ConfigExRMslaesTargetList.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Sr. RM Target List</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="sidebar-link" id="PotentialRetailerLead" routerLink="PotentialRetailerLeads" routerLinkActive="active" #PotentialRetailerLead="routerLinkActive">
+                            <i [ngClass]="PotentialRetailerLead.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Potential Retailers</span>
+                        </a>
+                    </li>
+                </ul></span>
+            </li>
+
+            <!-- Rolename.indexOf('RetailerShaktiAccounts') == -1 && Rolename.indexOf('RetailerShaktiAcquisitionAdmin') == -1 && Rolename.indexOf('RetailerShaktiAcquisitionStaff') == -1 -->
+            <li class="sidebar-item" ><span *ngIf="Rolename.indexOf('RetailerShaktiStoreVisitAdmin') >=0 || Rolename.indexOf('RetailerShaktiStoreVisitRM') >=0">
+                <a class="sidebar-link">
+                    <i class="align-middle fa fa-briefcase"></i>
+                    <span class="align-middle">Sales
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                    </span>
+                </a>
+                <ul class="submenu">      
+
+                    <li>
+                        <a class="sidebar-link" id="RetailershaktiSalesReport" routerLink="RetailershaktiSalesReport" routerLinkActive="active" #retailershaktiSalesReport="routerLinkActive"><i [ngClass]="retailershaktiSalesReport.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Sales Report</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="sidebar-link" id="MemberPinAssociation" routerLink="MemberPinAssociation" routerLinkActive="active" #MemberPinAssociation="routerLinkActive" *ngIf="Rolename.indexOf('RetailerShaktiStoreVisitAdmin') >= 0">
+                            <i [ngClass]="MemberPinAssociation.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Pin Association</span>
+                        </a>
+                    </li>
+
+                </ul></span>
+            </li>
+            <!-- Rolename.indexOf('RetailerShaktiAccounts') == -1 && Rolename.indexOf('RetailerShaktiAcquisitionAdmin') == -1 && Rolename.indexOf('RetailerShaktiAcquisitionStaff') == -1 -->
+            <li class="sidebar-item">
+                <span *ngIf="Rolename.indexOf('RetailerShaktiStoreVisitAdmin') >=0 || Rolename.indexOf('RetailerShaktiStoreVisitRM') >=0">
+                <a class="sidebar-link">
+                    <i class="align-middle fa fa-gift"></i>
+                    <span class="align-middle">Retailer Gift
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                    </span>
+                </a>
+                <ul class="submenu">      
+                    <li>
+                        <a class="sidebar-link" id="GiftToRetailers" routerLink="GiftToRetailers" routerLinkActive="active" #giftToRetailers="routerLinkActive">
+                            <i [ngClass]="giftToRetailers.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Gift To Retailers</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="sidebar-link" id="GiftReceivedAtBranch" routerLink="GiftReceivedAtBranch" routerLinkActive="active" #giftReceivedAtBranch="routerLinkActive">
+                            <i [ngClass]="giftReceivedAtBranch.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Gift Stock Entry</span>
+                        </a>
+                    </li> 
+
+                    <li>
+                        <a class="sidebar-link" id="GiftReceivedByRM" routerLink="GiftReceivedByRM" routerLinkActive="active" #giftReceivedByRM="routerLinkActive">
+                            <i [ngClass]="giftReceivedByRM.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Gift Distribution</span>
+                        </a>
+                    </li>
+                </ul></span>
+            </li>
+
+            <li class="sidebar-item">
+                <span  *ngIf="Rolename.indexOf('RetailerShaktiAccounts') >= 0">
+                    <a class="sidebar-link">
+                        <i class="align-middle fa fa-file"></i>
+                        <span class="align-middle">Account Reports
+                            <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                    <ul class="submenu">      
+
+                        <li>
+                         <a class="sidebar-link" id="RMWiseStoreVisitReport" routerLink="RMWiseStoreVisitReport" routerLinkActive="active" #rMWiseStoreVisitReport="routerLinkActive"><i [ngClass]="rMWiseStoreVisitReport.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Visit Summary</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="sidebar-link" id="RoVisitRouteList" routerLink="RoVisitRouteList" routerLinkActive="active" #roVisitRouteList="routerLinkActive">
+                            <i [ngClass]="roVisitRouteList.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Visit Km</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="sidebar-link" id="kmCalculationReport" routerLink="KmCalculationReport" routerLinkActive="active" #kmCalculationReport="routerLinkActive">
+                            <i [ngClass]="kmCalculationReport.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' " aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Travelling Allowance</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </span>
+        </li>
+
+        <li class="sidebar-item">
+            <span
+                *ngIf="Rolename.indexOf('RetailerShaktiStoreVisitAdmin') >=0 || Rolename.indexOf('RetailerShaktiStoreVisitRM') >=0">
+                <a class="sidebar-link">
+                    <i class='fa'>&#xf21e;</i>
+                    <span class="align-middle">Hygiene
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                    </span>
+                </a>
+                <ul class="submenu">
+                    <li>
+                        <a class="sidebar-link" id="hygieneTracker" routerLink="HygieneTracker"
+                            routerLinkActive="active" #hygieneTracker="routerLinkActive">
+                            <i [ngClass]="hygieneTracker.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' "
+                                aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">Hygiene Tracker</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="sidebar-link" id="hygieneReport" routerLink="HygieneReport"
+                            routerLinkActive="active" #hygieneReport="routerLinkActive">
+                            <i [ngClass]="hygieneReport.isActive ? 'align-middle fa fa-caret-right active' : 'align-middle fa fa-caret-right inactive' "
+                                aria-hidden="true"></i>
+                            <span id="sidebarSubMenu">View Hygiene Report</span>
+                        </a>
+                    </li>
+
+                    
+                </ul>
+            </span>
+        </li>
+</ul>
+</div>
+</nav>

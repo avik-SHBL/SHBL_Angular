@@ -1,0 +1,51 @@
+
+<div class="page-header">
+    <h3 class="pageheader-title pageheader-color">Transpotation Mode - Today</h3>
+</div>
+<hr>
+<form>
+    <div class="row align-items-center g-3">
+    	<div class="col-auto">
+    		<div class="input-group">
+    			<div class="input-group-text">Date</div>
+    			<input type="date" class="form-control" id="inlineFormInputTravelDateDate" name="TravelDate" [(ngModel)]="TravelDate" readonly >
+
+    		</div>
+    	</div>
+        <div class="col-auto">
+            <div class="input-group">
+    			<div class="input-group-text">Mode Of Transport</div>
+          <select class="form-control form-select" id="exampleTransportMode" name="TransportMode" [(ngModel)]="ModeOfTransport" >
+          <option value="Public">Public</option>
+          <!-- <option value="Private">Private</option> -->
+        </select>
+    		</div>
+        </div>
+        <div class="col-auto">
+          <div class="input-group">
+        <button class="btn btn-success" (click)="Save()">Save</button>
+
+      </div>
+        </div>
+    </div>
+</form>
+<div class="table-responsive">
+  <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Travel Date</th>
+          <th scope="col">Mode Of Transport</th>
+        </tr>
+      </thead>
+      <tbody>
+       <tr *ngFor="let tm of ModeOfTransportList;let i = index;">
+          <td scope="col">
+            <label [hidden]="(ModeOfTransportList[i-1]!=null  && ModeOfTransportList[i-1]!=undefined) && (ModeOfTransportList[i-1].Name == tm.Name)">{{tm.Name}}</label>
+          </td>
+          <td scope="col">{{tm.TravelDate}}</td>
+          <td scope="col">{{tm.TransportationMode}}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>

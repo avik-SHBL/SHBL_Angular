@@ -1,0 +1,107 @@
+<div class="page-header">
+  <h3 class="pageheader-title pageheader-color">Associate Pincode With RM</h3>
+</div>
+<hr>
+<div class="col-sm-12">
+  <div class="row mb-3">
+    <label class="col-sm-3 col-form-label">Select RM
+      <span class="text-red">*</span></label>
+    <div class="col-sm-9">
+      <input class="form-control input-control-color" type="text" [(ngModel)]="Name" [ngClass]="Name == '' ? 'input-control-border' : 'none' " (click)="openModalPopup()"/>
+      <div class="form-text" *ngIf="Name == '' ">
+            <!-- Please enter name -->
+          </div>
+    </div>
+
+  </div>
+  <div class="row mb-3">
+    <label class="col-sm-3 col-form-label">Enter Pincode
+    <span class="text-red">*</span></label>
+    <div class="col-sm-9">
+      <input class="form-control input-control-color" type="number" [(ngModel)]="PinCode" [ngClass]="PinCode == '' ? 'input-control-border' : 'none' "/>
+      <div class="form-text" *ngIf="PinCode == '' ">
+            <!-- Please enter name -->
+          </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <label class="col-sm-3 col-form-label">With Effect From
+    <span class="text-red">*</span></label>
+    <div class="col-sm-9">
+      <input type="date" class="form-control input-control-color" id="exampleInputVisitDate" name="EffectDate" [(ngModel)]="EffectDate" [ngClass]="EffectDate == '' ? 'input-control-border' : 'none' ">
+
+          <div class="form-text" *ngIf="PinCode == '' "></div>
+
+    </div>
+  </div>
+  <div class="col-sm-12 text-center">
+    <button type="button" class="btn btn-info" (click)="Save()">Save</button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">RM Name</th>
+          <th scope="col">EMP Code</th>
+          <th scope="col">Pincode</th>
+          <th scope="col">Effect From</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let RM of RMWisePincodeList; let i = index">
+          <!-- *ngFor="let GTR of RMWisePincodeList | paginate: { itemsPerPage: 20, currentPage: page }" -->
+          <td scope="col"><label [hidden]="(RMWisePincodeList[i-1]!=null  && RMWisePincodeList[i-1]!=undefined) && RMWisePincodeList[i-1].FirstName == RM.FirstName">{{RM.FirstName}}</label></td>
+            <!--  -->
+          <td scope="col"><label [hidden]="(RMWisePincodeList[i-1]!=null  && RMWisePincodeList[i-1]!=undefined) && RMWisePincodeList[i-1].EMPCode == RM.EMPCode">{{RM.EMPCode}}</label></td>
+          <td scope="col">{{RM.Pincode}}</td>
+          <td scope="col">{{RM.EffectDate}}</td>
+          <td scope="col"><i class="fa fa-trash text-blue icon-size cursorhand" title="Delete" (click)="Delete(RM.PinAsssociateID)"></i></td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- <pagination-controls ></pagination-controls> -->
+    <!-- (pageChange)="onPageChange($event)" -->
+  </div>
+
+  <div class="modal" tabindex="-1" role="dialog" id="ModalForRMForm" [ngStyle]="{'display':ModalForRM}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="col-md-10 text-center"><h4>RM Details</h4></div>
+          <div class="col-md-2"><button type="button" class="btn-close" (click)="closeModalPopup()"></button></div>
+        </div>
+        <div style="padding: 10px 10px 0px 10px;">
+          <div class="input-group">
+            <div class="input-group-text"><i class="fa fa-search"></i></div>
+            <input type="text" class="form-control" id="inlineFormInputSearch" name="Keyword"
+            [(ngModel)]="Keyword" (keyup)="GetRMList()">
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xs-12">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Select</th>
+                    <th scope="col">RM Name</th>
+                    <th scope="col">Emp Code</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let RO of RevenueOfficerList;">
+                    <td scope="col"><input type="radio" id="vehicle1" name="vehicle1" value=""
+                      (click)="GetSelectedItem(RO.MemberID,RO.FirstName)"></td>
+                      <td scope="col">{{RO.FirstName}}</td>
+                      <td scope="col">{{RO.EMPCode}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

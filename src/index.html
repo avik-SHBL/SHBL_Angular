@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Retailer Shakti Marketing</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">  
+    <link rel="stylesheet" href="assets/bootstrap-5.2.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/font-awesome-4.7.0/fonts/fontawesome-webfont.ttf">
+    <link rel="stylesheet" href="assets/font-awesome-4.7.0/fonts/fontawesome-webfont.woff">
+    <link rel="stylesheet" href="assets/font-awesome-4.7.0/fonts/fontawesome-webfont.woff2">
+    <link rel="stylesheet" href="styles.css">
+    <script src="assets/jquery-3.6.0/jquery.min.js"></script>    
+    <script src="assets/bootstrap-5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+
+    <script src="assets/chart.js-2.5.0/js/chart.min.js"></script>
+    
+
+</head>
+
+<body>      
+
+    <app-root></app-root>
+
+    <script src="assets/js/app.js"></script>
+
+    <script type="text/javascript">
+        var windowHandle;
+        function ScheduleDateForRetailerShakti(date, ROID, ROName, Schedule) {
+            // console.log(date, ROID, ROName, Schedule);
+
+            if (ROID == "undefined" || ROID == 0) {
+                alert("Please Select Revenue Officer");
+            }
+            else {
+
+                var width = screen.width * 70 / 100;
+                var height = screen.height * 60 / 100;
+                var left = (screen.width - width) / 2;
+                var top = (screen.height - height) / 4;
+
+
+                if (windowHandle) {
+                    windowHandle.close();
+                }
+                windowHandle = window.open('Home/RMVisitScheduleConfig/Popup/' + ROID + '/' + ROName + '/' + Schedule + '/' + date, '_blank', 'left=' + left + ',top=' + top + ',minimizable=no,scrollbars=no,resizable=no,titlebar=no,toolbar=no,statusbar=no,location=yes,height=' + height + ',width=' + width + ',scrollbars=yes,status=yes');
+            }
+        }
+    </script>
+
+     <script type="text/javascript"> 
+
+        $(document).ready(function(){  
+            $('li.sidebar-item').click(function (e) {  
+                // console.log(e.target.id);                
+                if(e.target.id != 'sidebarSubMenu'){
+                    $('li.sidebar-item').not(this).find('ul').hide();  
+                    $(this).find('ul').toggle(); 
+                    if(e.target.id == 'Dashboard' || e.target.id == 'RMWiseStoreVisitReport'){
+                        $('.hamburger').trigger('click');
+                    }
+                } 
+                else if(e.target.id == 'sidebarSubMenu'){
+                    $('.hamburger').trigger('click');
+                }              
+            });  
+
+        }); 
+
+        // $(function () {
+        //     $('#sidebarMenu li a').click(function () {
+        //         // console.log('id: '+$(this).attr('id'));
+        //         localStorage.setItem('lastTab', $(this).attr('id'));
+        //     });
+
+        // });
+
+        // $(document).ready(function() {
+            
+        //     $.each($('#sidebarMenu li a'), function () {                
+        //         // console.log($(this).attr('id'), localStorage.getItem('lastTab'));
+        //         if ($(this).attr('id') == localStorage.getItem('lastTab')) {
+        //             // console.log('pageLoad_id: '+$(this).attr('id'), '|',localStorage.getItem('lastTab'));
+        //             $(this).closest('li').removeClass('active');
+        //             $(this).closest('li').addClass('active');
+        //             //localStorage.removeItem('lastTab');
+        //         }
+        //         else {
+        //             $(this).closest('li').removeClass('active');
+        //         }
+        //     });
+
+        // }); 
+
+    </script> 
+
+    <script type="text/javascript">
+
+        function UserSessionExists() {    
+            // console.log(localStorage.getItem('apiUrl'), localStorage.getItem('siteUrl'), localStorage.getItem('token'));   
+
+            if(localStorage.getItem('token') != null){  
+                var appUrl = localStorage.getItem('apiUrl');
+                $.get(appUrl + '/Security/ValidateUserSession?SessionToken='+localStorage.getItem('token'), {},
+                    function (data, status) {
+                        // console.log(data, !data.success);
+                        if (!data.success) {
+                    // alert('Session expired! Please login.');
+                    localStorage.removeItem('token');
+                    location.href = localStorage.getItem('siteUrl');
+                }
+            });
+            }
+        };
+
+        setInterval(UserSessionExists, 10000);
+    </script>
+
+</body>
+</body>
+
+</html>

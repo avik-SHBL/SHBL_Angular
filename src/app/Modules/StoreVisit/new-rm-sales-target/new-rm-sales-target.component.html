@@ -1,0 +1,169 @@
+<ng-container *ngIf="NewRmTarget">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 class="pageheader-title pageheader-color">New RM Sales Target</h3>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <form [formGroup]="salesTargetForm" (ngSubmit)="onSubmit()">
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">With-Effect From</label>
+            <div class="col-sm-9" [ngClass]="isEditable == false ?'':'noedit'">
+                <input type="date" class="form-control input-control-color" name="WithEffectFrom"
+                    formControlName="WithEffectFrom" (change)="checkDate()">
+                    <div *ngIf="submitted && f.WithEffectFrom.errors">
+                        <div *ngIf="f.WithEffectFrom.errors.required" class="text-danger">*Enter With Effect From Date</div>
+                    </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-auto col-form-label checkMob">Is Default ?</label>
+            <div class="col-auto" [ngClass]="isEditable == false ?'':'noedit'">
+                <div class="form-check form-switch col-form-label">
+                    <input class="form-control form-check-input input-control-color"
+                        style="transform: scale(1.3); margin-right: 1rem;" type="checkbox" role="switch" ng-true-value="1"
+                        ng-false-value="0" name="IsDefault" formControlName="IsDefault" (change)="changeDefault()">
+                    <label class="form-check-label input-control-color" for="IsDefault" style="margin-right: 1rem;">
+                        {{salesTargetForm.value.IsDefault == false ? 'No' : 'Yes'}}
+                    </label>
+                </div>
+            </div>
+            <!-- <div class="col-auto col-form-label checkMobRM" *ngIf="salesTargetForm.value.IsDefault == false">
+                <div class="input-group">
+                    <div class="input-group-text">Select RM</div>
+                    <select class="form-control form-select" id="exampleInputRM" name="RM" formControlName="MemberID">
+                     <option value="">---Select---</option>
+                     <option *ngFor="let rev of RM_List" value="{{rev.MemberID}}">{{rev.FirstName}}</option>
+                    </select>
+                </div>
+                <div *ngIf="submitted && f.MemberID.errors">
+                    <div *ngIf="f.MemberID.errors.required" class="text-danger">*Select RM from List</div>
+                </div>
+            </div> -->
+        </div>
+        <ng-container *ngIf="salesTargetForm.value.IsDefault == false">
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Select RM*</label>
+                <div class="col-sm-9" [ngClass]="isEditable == false ?'':'noedit'">
+                    <select class="form-control form-select input-control-color" name="RM" formControlName="MemberID">
+                        <option value="">---Select---</option>
+                        <option *ngFor="let rev of RM_List" value="{{rev.MemberID}}">{{rev.FirstName}}</option>
+                    </select>
+                    <div *ngIf="submitted && f.MemberID.errors">
+                        <div *ngIf="f.MemberID.errors.required" class="text-danger">*Select RM from List</div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Visit Type</label>
+            <div class="col-sm-9">
+                <select class="form-control form-select input-control-color" name="VisitType" formControlName="VisitType">
+                    <option value="">---Select---</option>
+                    <option value="1">New Lead</option>
+                    <option value="2">Existing Retailer</option>
+                    <option value="3">Both</option>
+                </select>
+                <div *ngIf="submitted && f.VisitType.errors">
+                    <div *ngIf="f.VisitType.errors.required" class="text-danger">*Visit Type is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Days Of Work</label>
+            <div class="col-sm-9">
+                <input type="number" (keypress)="numCheck($event)" class="form-control input-control-color"
+                    placeholder="Enter Days Of Work" name="
+                    DaysOfWork" formControlName="DaysOfWork" (change)="getworkDaysNo()" [ngModel]="workDaysNo" max=30
+                    min=0>
+                <div *ngIf="submitted && f.DaysOfWork.errors">
+                    <div *ngIf="f.DaysOfWork.errors.required" class="text-danger">*Enter Days Of Work</div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Daily Visit</label>
+            <div class="col-sm-9">
+                <input type="number" (keypress)="numCheck($event)" class="form-control input-control-color"
+                    placeholder="Enter Daily Visit Count" name="
+                DailyVisit" formControlName="DailyVisit" (change)="getDailyVisitNo()" [ngModel]="dailyVisitNo" min=0>
+                <div *ngIf="submitted && f.DailyVisit.errors">
+                    <div *ngIf="f.DailyVisit.errors.required" class="text-danger">*Enter Daily Visit Count</div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Monthly Visit</label>
+            <div class="col-sm-9">
+                <input type="number" class="form-control input-control-color" placeholder="Monthly Visit Count" name="
+                MonthlyVisit" formControlName="MonthlyVisit" readonly [ngModel]="calculateMonthlyVisit">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Min Daily New Order</label>
+            <div class="col-sm-9">
+                <input type="number" (keypress)="numCheck($event)" class="form-control input-control-color"
+                    placeholder="Enter Minimum Daily New Order" name="DailyNewOrderMinimum"
+                    formControlName="DailyNewOrderMinimum" (change)="getDailyNewMinOrder()" [ngModel]="DailyNewMinOrderNo"
+                    min=0>
+                <div *ngIf="submitted && f.DailyNewOrderMinimum.errors">
+                    <div *ngIf="f.DailyNewOrderMinimum.errors.required" class="text-danger">*Enter Minimum Daily New Order
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Min Monthly New Order</label>
+            <div class="col-sm-9">
+                <input type="number" class="form-control input-control-color" placeholder="Minimum Monthly New Order"
+                    name="MonthlyNewOrderMinimum" formControlName="MonthlyNewOrderMinimum" readonly
+                    [ngModel]="MonthlyNewOrderMinimum">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Min Monthly On Board</label>
+            <div class="col-sm-9">
+                <input type="number" (keypress)="numCheck($event)" class="form-control input-control-color"
+                    placeholder="Enter Monthly On Board Count" name="MonthlyOnBoard" formControlName="MonthlyOnBoard" min=0>
+                <div *ngIf="submitted && f.MonthlyOnBoard.errors">
+                    <div *ngIf="f.MonthlyOnBoard.errors.required" class="text-danger">*Enter Monthly On Board</div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Min Monthly 5 Lakh Retailer</label>
+            <div class="col-sm-9">
+                <input type="number" (keypress)="numCheck($event)" class="form-control input-control-color"
+                    placeholder="Enter 5 Lakh Retailer Count" name="RetailerCount5Lakh" formControlName="RetailerCount5Lakh"
+                    min=0>
+                <div *ngIf="submitted && f.RetailerCount5Lakh.errors">
+                    <div *ngIf="f.RetailerCount5Lakh.errors.required" class="text-danger">*Enter 5 Lakh Retailer Count</div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Expected Monthly Sale</label>
+            <div class="col-sm-9">
+                <span class="d-flex align-items-center">
+                    <i class="fa fa-rupee"></i>
+                    <input type="number" (keypress)="numCheck($event)" class="form-control input-control-color mnSl"
+                        placeholder="Enter Expected Monthly Sale" name="ExpectedMonthlySale"
+                        formControlName="ExpectedMonthlySale" min=0>
+                </span>
+                <div *ngIf="submitted && f.ExpectedMonthlySale.errors">
+                    <div *ngIf="f.ExpectedMonthlySale.errors.required" class="text-danger">*Enter Expected Monthly Sale
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">
+                <ng-container *ngIf="!IsupdateData">Submit</ng-container>
+                <ng-container *ngIf="IsupdateData">Update</ng-container>
+            </button>
+        </div>
+    </form>
+</ng-container>
